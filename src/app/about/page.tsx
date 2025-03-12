@@ -1,9 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Play, Star, ArrowRight, Phone } from "lucide-react";
+import { useEffect, useState } from "react";
+import { HouseService } from "@/utils/services/HouseService";
+import { House } from "@/types/HouseType";
 
 export default function AboutPage() {
 	return (
@@ -26,6 +31,52 @@ export default function AboutPage() {
 					</div>
 				</div>
 			</div>
+  const [houseData, setData] = useState<House[]>([]);
+
+  const fetchDanhMuc = async () => {
+    try {
+      const data = await HouseService.find({
+        relationships: [
+          {
+            table: "house_details",
+            is_inner_join_filter: false,
+            join_column: "id",
+            select: ["*"],
+          },
+        ],
+      });
+
+      setData(data);
+    } finally {
+    }
+  };
+
+  useEffect(() => {
+    fetchDanhMuc();
+  }, []);
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      {/* Hero Section */}
+      <div className="relative h-[300px] w-full">
+        <Image
+          src="/placeholder.svg?height=300&width=1200"
+          alt="Modern interior"
+          fill
+          className="object-cover brightness-50"
+          priority
+        />
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
+          <h1 className="text-3xl font-bold mb-2">About Page</h1>
+          <div className="flex items-center gap-2 text-sm">
+            <Link href="/" className="hover:underline">
+              Home
+            </Link>
+            <span>/</span>
+            <span>About Page</span>
+          </div>
+        </div>
+      </div>
 
 			{/* Achievements Section */}
 			<section className="bg-muted/30 py-16">
