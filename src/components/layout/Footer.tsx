@@ -1,7 +1,38 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, Mail, Phone } from "lucide-react";
+import {
+	MapPin,
+	Mail,
+	Phone,
+	Facebook,
+	Twitter,
+	Instagram,
+	Linkedin,
+} from "lucide-react";
+
+const socials = [
+	{
+		name: "facebook",
+		url: "#",
+		element: <Facebook />,
+	},
+	{
+		name: "twitter",
+		url: "#",
+		element: <Twitter />,
+	},
+	{
+		name: "instagram",
+		url: "#",
+		element: <Instagram />,
+	},
+	{
+		name: "linkedin",
+		url: "#",
+		element: <Linkedin />,
+	},
+];
 export default function Footer() {
 	return (
 		<>
@@ -61,23 +92,16 @@ export default function Footer() {
 								couple of keywords.
 							</p>
 							<div className="flex gap-4">
-								{["facebook", "twitter", "instagram", "linkedin"].map(
-									(social) => (
-										<Link
-											key={social}
-											href={`#${social}`}
-											className="bg-slate-800 p-2 rounded-full hover:bg-primary transition-colors"
-										>
-											<span className="sr-only">{social}</span>
-											<Image
-												src={`/placeholder.svg?height=20&width=20&text=${social[0].toUpperCase()}`}
-												alt={social}
-												width={20}
-												height={20}
-											/>
-										</Link>
-									)
-								)}
+								{socials.map((social) => (
+									<Link
+										key={social.name}
+										href={social.url}
+										className="bg-slate-800 p-2 rounded-full hover:bg-primary transition-colors"
+									>
+										<span className="sr-only">{social.name}</span>
+										{social.element}
+									</Link>
+								))}
 							</div>
 						</div>
 
@@ -129,13 +153,16 @@ export default function Footer() {
 							<h3 className="font-bold text-lg mb-6">Gallery</h3>
 							<div className="grid grid-cols-2 gap-2">
 								{[1, 2, 3, 4].map((i) => (
-									<Link key={i} href="#" className="block">
+									<Link
+										key={i}
+										href="#"
+										className="block relative aspect-[3/2]"
+									>
 										<Image
-											src={`/placeholder.svg?height=80&width=120&text=Gallery${i}`}
+											src={`/assets/images/galary/galary-${i}.avif`}
 											alt={`Gallery ${i}`}
-											width={120}
-											height={80}
-											className="rounded-lg hover:opacity-80 transition-opacity"
+											fill
+											className="rounded-lg hover:opacity-80 transition-opacity object-cover"
 										/>
 									</Link>
 								))}
