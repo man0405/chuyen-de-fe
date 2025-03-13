@@ -26,20 +26,20 @@ import Image from "next/image"
 
 export default function HomePage() {
 	return (
-		<div className="min-h-screen flex flex-col mx-auto" >
+		<div className="min-h-screen flex flex-col mx-auto " >
 			{/* Hero Section */}
-			<section className="bg-navy relative py-20 md:py-20">
-				<div className="container grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mx-auto">
-					<div className="space-y-6 z-10">
-						<h1 className="text-4xl md:text-5xl lg:text-6xl font-bold ">
+			<section className="bg-navy relative py-12 md:py-20 lg:py-32">
+				<div className="containe px-4 md:px-6 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mx-auto">
+					<div className="space-y-4 md:space-y-6 z-10">
+						<h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-tight font-bold ">
 							Global Home For Your Future Generation
 						</h1>
-						<p className="text-gray-300 text-lg">
+						<p className=" text-base md:text-lg max-w-md">
 							Find your dream property with our expert real estate services. We help you discover the perfect home.
 						</p>
-						<div className="flex flex-wrap gap-4">
-							<Button >Get Started</Button>
-							<Button variant="outline" >
+						<div className="flex flex-wrap gap-3 md:gap-4">
+							<Button className=" text-sm md:text-base">Get Started</Button>
+							<Button variant="outline" className="text-sm md:text-base">
 								Learn More
 							</Button>
 						</div>
@@ -59,9 +59,9 @@ export default function HomePage() {
 			</section>
 
 			{/* Stats Section */}
-			<section className="py-10 bg-secondary">
-				<div className="container mx-auto">
-					<div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
+			<section className="py-8 md:py-10 bg-secondary">
+				<div className="container px-4 md:px-6 mx-auto">
+					<div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8">
 						<StatsCounter value={30.3} label="Properties Sold" suffix="K" />
 						<StatsCounter value={100.3} label="Happy Customers" suffix="K" />
 						<StatsCounter value={150.5} label="Property Listings" suffix="K" />
@@ -70,38 +70,38 @@ export default function HomePage() {
 			</section>
 
 			{/* Search Section */}
-			<section className="py-16 ">
-				<div className="container mx-auto">
+			<section className="py-16 md:py-16 ">
+				<div className="container mx-auto px-4 md:px-6">
 					<div className="max-w-3xl mx-auto">
-						<div className="text-center mb-8">
-							<h2 className="text-3xl font-bold mb-4">Let's Find The Right Selling Option For You</h2>
-							<p className="text-muted-foreground">
+						<div className="text-center mb-6 md:mb-8">
+							<h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">Let's Find The Right Selling Option For You</h2>
+							<p className="text-muted-foreground text-sm md:text-base">
 								Search through our extensive property listings to find your perfect match
 							</p>
 						</div>
 
-						<Card className="p-6 shadow-lg">
+						<Card className="p-4 md:p-6 shadow-lg">
 							<Tabs defaultValue="buy" className="w-full">
-								<TabsList className="grid grid-cols-3 mb-6">
+								<TabsList className="grid grid-cols-3 mb-4 md:mb-6">
 									<TabsTrigger value="buy">Buy</TabsTrigger>
 									<TabsTrigger value="rent">Rent</TabsTrigger>
 									<TabsTrigger value="sell">Sell</TabsTrigger>
 								</TabsList>
 
 								<TabsContent value="buy" className="space-y-4">
-									<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+									<div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
 										<div>
-											<label className="text-sm font-medium mb-1 block">Location</label>
+											<label className="text-xs md:text-sm font-medium mb-1 block">Location</label>
 											<div className="relative">
 												<MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
-												<Input className="pl-10" placeholder="City, Address, Zip" />
+												<Input className="pl-10 text-sm" placeholder="City, Address, Zip" />
 											</div>
 										</div>
 										<div>
-											<label className="text-sm font-medium mb-1 block">Property Type</label>
+											<label className="text-xs md:text-sm font-medium mb-1 block">Property Type</label>
 											<div className="relative">
 												<Building className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
-												<select className="w-full h-10 pl-10 pr-4 rounded-md border border-input bg-background">
+												<select className="w-full h-10 pl-10 pr-4 rounded-md border border-input bg-background text-sm">
 													<option>Any Type</option>
 													<option>House</option>
 													<option>Apartment</option>
@@ -110,14 +110,14 @@ export default function HomePage() {
 											</div>
 										</div>
 										<div>
-											<label className="text-sm font-medium mb-1 block">Price Range</label>
+											<label className="text-xs md:text-sm font-medium mb-1 block">Price Range</label>
 											<div className="relative">
 												<span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
-												<Input className="pl-10" placeholder="Max Price" />
+												<Input className="pl-10 text-sm" placeholder="Max Price" />
 											</div>
 										</div>
 									</div>
-									<Button className="w-full  ">
+									<Button className="w-full bg-orange hover:bg-orange/90 text-sm md:text-base">
 										<Search className="mr-2 h-4 w-4" /> Search Properties
 									</Button>
 								</TabsContent>
@@ -189,19 +189,19 @@ export default function HomePage() {
 			</section>
 
 			{/* Top Properties Section */}
-			<section className="py-16">
-				<div className="container mx-auto">
-					<div className="flex justify-between items-center m-10">
+			<section className="py-10 md:py-16">
+				<div className="container px-4 md:px-6 mx-auto">
+					<div className="flex flex-col md:flex-row    mb-6 md:mb-10 gap-4 justify-between items-center ">
 						<div>
-							<h2 className="text-3xl font-bold mb-2">Featured Properties</h2>
+							<h2 className="text-2xl md:text-3xl font-bold">Discover Top Properties</h2>
 							<p className="text-muted-foreground">Explore our handpicked selection of top properties</p>
 						</div>
-						<Button variant="default" className="flex items-center">
+						<Button variant="default" className="flex items-center w-full md:w-auto">
 							View All <ChevronRight className="ml-2 h-4 w-4" />
 						</Button>
 					</div>
 
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
 						<PropertyCard
 							title="Modern Apartment in Downtown"
 							location="123 Main Street, New York"
@@ -234,8 +234,9 @@ export default function HomePage() {
 			</section>
 
 			{/* Latest Projects Section */}
-			<section className="py-16 bg-secondary">
-				<div className="container mx-auto">
+
+			<section className="py-16 bg-secondary md:py-16">
+				<div className="container mx-auto px-4 md:px-6">
 					<div className="text-center mb-10">
 						<h2 className="text-3xl font-bold mb-2">Our Latest Projects</h2>
 						<p className="text-muted-foreground max-w-2xl mx-auto">
@@ -274,8 +275,8 @@ export default function HomePage() {
 
 
 			{/* Why Choose Us Section */}
-			<section className="py-16 ">
-				<div className="container mx-auto">
+			<section className="py-16 md:py-16 ">
+				<div className="container mx-auto  px-4 md:px-6">
 					<h2 className="text-3xl font-bold text-center  mb-12">Why Choose Us</h2>
 
 					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
@@ -319,8 +320,8 @@ export default function HomePage() {
 			</section>
 
 			{/* Team Section */}
-			<section className="py-16">
-				<div className="container mx-auto">
+			<section className="py-16 md:py-16">
+				<div className="container mx-auto px-4 md:px-6">
 					<div className="flex justify-between items-center mb-10">
 						<h2 className="text-3xl font-bold">Meet Our Real Estate Team</h2>
 						<Button variant="outline">View All Team</Button>
@@ -359,7 +360,7 @@ export default function HomePage() {
 				<div className="container mx-auto px-6">
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center ">
 						{/* Left Image */}
-						<div className="justify-self-center pl-6">
+						<div className="justify-self-center">
 							<Image
 								src="/assets/images/agents/agent-2.png"
 								alt="Client"
@@ -408,10 +409,12 @@ export default function HomePage() {
 				</div>
 			</section>
 
+			{/* <section className="py-16 bg-secondary md:py-16">
+			<div className="container mx-auto px-4 md:px-6"> */}
 
 			{/* Featured Properties Section */}
-			<section className="py-16">
-				<div className="container mx-auto">
+			<section className="py-16 md:py-16">
+				<div className="container mx-auto  px-4 md:px-6">
 					<div className="flex justify-between items-center mb-10">
 						<h2 className="text-3xl font-bold">Featured Properties</h2>
 						<div className="flex gap-2">
@@ -466,8 +469,8 @@ export default function HomePage() {
 			</section>
 
 			{/* News Section */}
-			<section className="py-16 bg-primary-foreground ">
-				<div className="container mx-auto">
+			<section className="py-16 bg-primary-foreground  md:py-16">
+				<div className="container mx-auto px-4 md:px-6">
 					<div className="flex justify-between items-center mb-10">
 						<h2 className="text-3xl font-bold">Our Latest News Update</h2>
 						<Button variant="outline">View All News</Button>
