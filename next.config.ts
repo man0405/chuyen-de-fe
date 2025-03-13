@@ -6,7 +6,9 @@ const nextConfig: NextConfig = {
 	basePath: "/",
 	reactStrictMode: true,
 	images: {
-		domains: ["ui-avatars.com"],
+		loader: "custom",
+		loaderFile: "./src/utils/imageLoader.ts",
+		domains: ["paranoma.manportfolio.id.vn", "ui-avatars.com"],
 	},
 };
 
