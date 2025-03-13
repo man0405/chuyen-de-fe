@@ -7,19 +7,25 @@ import { Phone, Mail } from "lucide-react";
 import { useTheme } from "next-themes";
 
 export default function Header() {
-	const { theme } = useTheme();
+	const { theme, systemTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
 
 	// Only run on client side
 	useEffect(() => {
+		console.log(theme);
 		setMounted(true);
 	}, []);
+	const isDarkTheme = !mounted
+		? false
+		: theme === "system"
+		? systemTheme === "dark"
+		: theme === "dark";
 
 	const logoSrc = !mounted
-		? "/assets/images/logo-removebg-preview.png"
-		: theme === "dark"
+		? "/assets/images/logo-black.png"
+		: isDarkTheme
 		? "/assets/images/logo-white.png"
-		: "/assets/images/logo-removebg-preview.png";
+		: "/assets/images/logo-black.png";
 
 	return (
 		<header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
