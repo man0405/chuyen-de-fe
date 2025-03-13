@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Star, Phone } from "lucide-react"
+import { Button } from "../ui/button"
 
 interface TeamMemberProps {
     name: string
@@ -12,24 +13,25 @@ interface TeamMemberProps {
 
 export default function TeamMember({ name, role, image, rating, properties }: TeamMemberProps) {
     return (
-        <Card className="overflow-hidden group">
-            <div className="relative">
+        <Card className="overflow-hidden group pt-0">
+            <div className="relative ">
                 <Image
+
                     src={image || "/placeholder.svg"}
                     alt={name}
                     width={300}
                     height={400}
-                    className="w-full h-[350px] object-cover"
+                    className="w-full   object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                    <div className="p-6 w-full">
-                        <button className="bg-orange text-white w-full py-2 rounded-md flex items-center justify-center">
+                    <div className=" w-full">
+                        <Button variant={"secondary"} className="w-full  flex items-center justify-center">
                             <Phone className="h-4 w-4 mr-2" /> Contact Agent
-                        </button>
+                        </Button>
                     </div>
                 </div>
                 <div className="absolute top-4 right-4">
-                    <span className="bg-orange text-white px-3 py-1 rounded-full text-sm">{properties} Properties</span>
+                    <span className=" px-3 py-1 rounded-full text-sm">{properties} Properties</span>
                 </div>
             </div>
 
