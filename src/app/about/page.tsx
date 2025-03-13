@@ -42,7 +42,7 @@ export default function AboutPage() {
 			<div className="relative h-[300px] w-full">
 				<Image
 					loader={imageLoader}
-					src="/assets/images/roberto-nickson-tleCJiDOri0-unsplash.jpg"
+					src="/assets/images/about/roberto-nickson-tleCJiDOri0-unsplash.jpg"
 					alt="Modern interior"
 					fill
 					className="object-cover brightness-50"
@@ -101,7 +101,7 @@ export default function AboutPage() {
 						<div className="relative">
 							<Image
 								loader={imageLoader}
-								src="/assets/images/photo-1600585154340-be6161a56a0c.avif"
+								src="/assets/images/about/photo-1600585154340-be6161a56a0c.avif"
 								alt="Modern house"
 								width={600}
 								height={400}
