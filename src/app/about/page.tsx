@@ -9,6 +9,7 @@ import { Play, Star, ArrowRight, Phone } from "lucide-react";
 import { useEffect, useState } from "react";
 import { HouseService } from "@/utils/services/HouseService";
 import { House } from "@/types/HouseType";
+import imageLoader from "@/utils/imageLoader";
 
 export default function AboutPage() {
 	const [houseData, setData] = useState<House[]>([]);
@@ -40,6 +41,7 @@ export default function AboutPage() {
 			{/* Hero Section */}
 			<div className="relative h-[300px] w-full">
 				<Image
+					loader={imageLoader}
 					src="/assets/images/roberto-nickson-tleCJiDOri0-unsplash.jpg"
 					alt="Modern interior"
 					fill
@@ -98,6 +100,7 @@ export default function AboutPage() {
 
 						<div className="relative">
 							<Image
+								loader={imageLoader}
 								src="/assets/images/photo-1600585154340-be6161a56a0c.avif"
 								alt="Modern house"
 								width={600}
@@ -121,6 +124,7 @@ export default function AboutPage() {
 						{[1, 2, 3, 4, 5].map((i) => (
 							<div key={i} className="flex items-center justify-center">
 								<Image
+									loader={imageLoader}
 									src={`/assets/images/brand/brand-${i}.png`}
 									alt={`Partner ${i}`}
 									width={120}
@@ -179,6 +183,7 @@ export default function AboutPage() {
 
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 							<Image
+								loader={imageLoader}
 								src="/assets/images/about/premium_photo-1661883964999-c1bcb57a7357.avif"
 								alt="Property 1"
 								width={250}
@@ -186,6 +191,7 @@ export default function AboutPage() {
 								className="rounded-lg w-full h-auto object-cover"
 							/>
 							<Image
+								loader={imageLoader}
 								src="/assets/images/about/photo-1600585153490-76fb20a32601.avif"
 								alt="Property 2"
 								width={250}
@@ -225,6 +231,7 @@ export default function AboutPage() {
 							<Card key={i} className="overflow-hidden">
 								<div className="relative aspect-[3/4] w-full">
 									<Image
+										loader={imageLoader}
 										src={`/assets/images/agents/agent-${i + 1}.png`}
 										alt={member.name}
 										fill
@@ -293,6 +300,7 @@ export default function AboutPage() {
 								</p>
 								<div className="flex items-center gap-4">
 									<Image
+										loader={imageLoader}
 										src={`https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${testimonial.name}`}
 										alt={testimonial.name}
 										width={50}
@@ -315,6 +323,7 @@ export default function AboutPage() {
 			<section className="py-16 relative">
 				<div className="absolute inset-0 z-0">
 					<Image
+						loader={imageLoader}
 						src="/assets/images/about/premium_photo-1661962841993-99a07c27c9f4.avif"
 						alt="Background"
 						fill
@@ -339,6 +348,7 @@ export default function AboutPage() {
 							<CardContent className="p-6 flex flex-col items-center">
 								<div className="mb-4 mt-2">
 									<Image
+										loader={imageLoader}
 										src="/assets/images/vila.svg"
 										alt="Villa icon"
 										width={40}
@@ -354,6 +364,7 @@ export default function AboutPage() {
 							<CardContent className="p-6 flex flex-col items-center">
 								<div className="mb-4 mt-2">
 									<Image
+										loader={imageLoader}
 										src="/assets/images/apartment.svg"
 										alt="Apartment icon"
 										width={40}
@@ -370,6 +381,7 @@ export default function AboutPage() {
 							<CardContent className="p-6 flex flex-col items-center">
 								<div className="mb-4 mt-2">
 									<Image
+										loader={imageLoader}
 										src="/assets/images/ware-house.svg"
 										alt="Warehouse icon"
 										color="#fff"
