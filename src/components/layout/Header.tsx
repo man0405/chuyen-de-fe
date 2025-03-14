@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -7,23 +7,32 @@ import { Phone, Mail } from "lucide-react";
 import { useTheme } from "next-themes";
 
 export default function Header() {
-	const { theme } = useTheme();
+	const { theme, systemTheme } = useTheme();
+	const [mounted, setMounted] = useState(false);
+
+	// Only run on client side
+	useEffect(() => {
+		console.log(theme);
+		setMounted(true);
+	}, []);
+	const isDarkTheme = !mounted
+		? false
+		: theme === "system"
+		? systemTheme === "dark"
+		: theme === "dark";
+
+	const logoSrc = !mounted
+		? "/assets/images/logo-black.png"
+		: isDarkTheme
+		? "/assets/images/logo-white.png"
+		: "/assets/images/logo-black.png";
 
 	return (
 		<header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
 			<div className="container flex h-16 items-center justify-between mx-auto">
 				<div className="flex items-center gap-2">
 					<div className="p-1">
-						<Image
-							src={
-								theme === "dark"
-									? "/assets/images/logo-white.png"
-									: "/assets/images/logo-removebg-preview.png"
-							}
-							alt="Logo"
-							width={150}
-							height={300}
-						/>
+						<Image src={logoSrc} alt="Logo" width={150} height={300} />
 					</div>
 					<span className="font-bold text-xl">HOMIRX</span>
 				</div>
