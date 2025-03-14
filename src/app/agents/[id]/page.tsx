@@ -22,13 +22,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export async function generateStaticParams() {
-	// For testing, we'll generate 3 static agent profiles
-	// In a real app, this would come from your API or database
-	return [{ id: "1" }, { id: "2" }, { id: "3" }];
-}
-
-export default function ProfilePage({ params }: { params: { id: string } }) {
+export default function ProfilePage() {
 	return (
 		<div className="min-h-screen flex flex-col">
 			{/* Hero Section */}
