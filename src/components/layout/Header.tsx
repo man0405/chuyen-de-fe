@@ -18,14 +18,14 @@ export default function Header() {
 	const isDarkTheme = !mounted
 		? false
 		: theme === "system"
-		? systemTheme === "dark"
-		: theme === "dark";
+			? systemTheme === "dark"
+			: theme === "dark";
 
 	const logoSrc = !mounted
-		? "/assets/images/logo-black.png"
+		? "/chuyen-de-fe/public/assets/images/logo-black.png"
 		: isDarkTheme
-		? "/assets/images/logo-white.png"
-		: "/assets/images/logo-black.png";
+			? "/chuyen-de-fe/public/assets/images/logo-white.png"
+			: "/chuyen-de-fe/public/assets/images/logo-black.png";
 
 	return (
 		<header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

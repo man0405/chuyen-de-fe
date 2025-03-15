@@ -8,9 +8,8 @@ const nextConfig: NextConfig = {
 	basePath: "", // Changed from isProd ? "/" : "" to just ""
 	reactStrictMode: true,
 	images: {
+		loader: "default",
 		unoptimized: true,
-		loader: "custom",
-		loaderFile: "./src/utils/imageLoader.ts",
 		domains: ["paranoma.manportfolio.id.vn", "ui-avatars.com"],
 	},
 };
