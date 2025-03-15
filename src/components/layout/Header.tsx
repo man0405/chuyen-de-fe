@@ -44,32 +44,38 @@ export default function Header() {
           <span className="font-bold text-xl">HOMIRX</span>
         </div>
 
-        <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-          <Link href="/" className="transition-colors hover:text-primary">
-            Home
-          </Link>
-          <Link
-            href="/properties"
-            className="transition-colors hover:text-primary"
-          >
-            Properties
-          </Link>
-          <Link href="/agents" className="transition-colors hover:text-primary">
-            Agents
-          </Link>
-          <Link href="/pages" className="transition-colors hover:text-primary">
-            Pages
-          </Link>
-          <Link href="/news" className="transition-colors hover:text-primary">
-            News
-          </Link>
-          <Link
-            href="/contact"
-            className="transition-colors hover:text-primary"
-          >
-            Contact
-          </Link>
-        </nav>
+				<nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+					<Link href="/" className="transition-colors hover:text-primary">
+						Home
+					</Link>
+					{/* <Link
+						href="/properties"
+						className="transition-colors hover:text-primary"
+					>
+						Properties
+					</Link> */}
+					<Link
+						href="/properties_1"
+						className="transition-colors hover:text-primary"
+					>
+						Properties
+					</Link>
+					<Link href="/agents" className="transition-colors hover:text-primary">
+						Agents
+					</Link>
+					<Link href="/pages" className="transition-colors hover:text-primary">
+						Pages
+					</Link>
+					<Link href="/news" className="transition-colors hover:text-primary">
+						News
+					</Link>
+					<Link
+						href="/contact"
+						className="transition-colors hover:text-primary"
+					>
+						Contact
+					</Link>
+				</nav>
 
         <div className="flex items-center gap-4">
           <div className="hidden md:flex items-center gap-2">
