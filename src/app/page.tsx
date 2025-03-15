@@ -53,6 +53,7 @@ export default function HomePage() {
               width={16} // Aspect ratio (16:9 for example)
               height={12}
               className="rounded-lg shadow-xl"
+              loader={({ src }) => src}
             />
           </div>
         </div>
