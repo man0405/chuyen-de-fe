@@ -320,7 +320,7 @@ export default function Properties() {
                                         id: 1,
                                         image: "/assets/images/product/image1.png",
                                         title: "The Pastry Corner",
-                                        rating: 3.0,
+                                        rating: 3.0,``
                                         reviews: 1,
                                         description: "Outdoor, luxury for you",
                                         address: "22 Broklyn Street New York USA",
