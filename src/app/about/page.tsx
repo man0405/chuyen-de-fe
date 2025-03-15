@@ -1,17 +1,48 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Play, Star, ArrowRight, Phone, Mail, MapPin } from "lucide-react";
+import { Play, Star, ArrowRight, Phone } from "lucide-react";
+import { useEffect, useState } from "react";
+import { HouseService } from "@/utils/services/HouseService";
+import { House } from "@/types/HouseType";
+import imageLoader from "@/utils/imageLoader";
 
 export default function AboutPage() {
+	const [houseData, setData] = useState<House[]>([]);
+
+	const fetchDanhMuc = async () => {
+		try {
+			const data = await HouseService.find({
+				relationships: [
+					{
+						table: "house_details",
+						is_inner_join_filter: false,
+						join_column: "id",
+						select: ["*"],
+					},
+				],
+			});
+
+			setData(data);
+		} finally {
+		}
+	};
+
+	useEffect(() => {
+		fetchDanhMuc();
+	}, []);
+
 	return (
 		<div className="flex flex-col min-h-screen">
 			{/* Hero Section */}
 			<div className="relative h-[300px] w-full">
 				<Image
-					src="/placeholder.svg?height=300&width=1200"
+					loader={imageLoader}
+					src="/assets/images/about/roberto-nickson-tleCJiDOri0-unsplash.jpg"
 					alt="Modern interior"
 					fill
 					className="object-cover brightness-50"
@@ -20,9 +51,7 @@ export default function AboutPage() {
 				<div className="absolute inset-0 flex flex-col items-center justify-center text-white">
 					<h1 className="text-3xl font-bold mb-2">About Page</h1>
 					<div className="flex items-center gap-2 text-sm">
-						<Link href="/" className="hover:underline">
-							Home
-						</Link>
+						<Link href="/" className="hover:underline"></Link>
 						<span>/</span>
 						<span>About Page</span>
 					</div>
@@ -32,11 +61,11 @@ export default function AboutPage() {
 			{/* Achievements Section */}
 			<section className="bg-muted/30 py-16">
 				<div className="container mx-auto px-4">
-					<Badge variant="outline" className="mb-4">
-						Our Achievement
-					</Badge>
 					<div className="grid md:grid-cols-2 gap-8 items-center">
 						<div>
+							<Badge variant="outline" className="mb-4">
+								Our Achievement
+							</Badge>
 							<h2 className="text-3xl md:text-4xl font-bold mb-8">
 								Our Homeda Awesome
 								<br />
@@ -71,7 +100,8 @@ export default function AboutPage() {
 
 						<div className="relative">
 							<Image
-								src="/placeholder.svg?height=400&width=600"
+								loader={imageLoader}
+								src="/assets/images/about/photo-1600585154340-be6161a56a0c.avif"
 								alt="Modern house"
 								width={600}
 								height={400}
@@ -94,7 +124,8 @@ export default function AboutPage() {
 						{[1, 2, 3, 4, 5].map((i) => (
 							<div key={i} className="flex items-center justify-center">
 								<Image
-									src={`/placeholder.svg?height=60&width=120&text=Partner${i}`}
+									loader={imageLoader}
+									src={`/assets/images/brand/brand-${i}.png`}
 									alt={`Partner ${i}`}
 									width={120}
 									height={60}
@@ -129,7 +160,7 @@ export default function AboutPage() {
 
 							<div className="flex flex-wrap gap-4">
 								<Button variant="default">List your own property</Button>
-								<Button variant="outline" className="border-white/20">
+								<Button variant="secondary" className="border-white/20">
 									Property hunt & fast support
 								</Button>
 							</div>
@@ -152,14 +183,16 @@ export default function AboutPage() {
 
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 							<Image
-								src="/placeholder.svg?height=300&width=250"
+								loader={imageLoader}
+								src="/assets/images/about/premium_photo-1661883964999-c1bcb57a7357.avif"
 								alt="Property 1"
 								width={250}
 								height={300}
 								className="rounded-lg w-full h-auto object-cover"
 							/>
 							<Image
-								src="/placeholder.svg?height=300&width=250"
+								loader={imageLoader}
+								src="/assets/images/about/photo-1600585153490-76fb20a32601.avif"
 								alt="Property 2"
 								width={250}
 								height={300}
@@ -191,24 +224,18 @@ export default function AboutPage() {
 
 					<div className="grid md:grid-cols-3 gap-8">
 						{[
-							{ name: "Savannah Nguyen", role: "CEO", phone: "(239) 555-0108" },
-							{ name: "Annette Black", role: "Agent", phone: "(603) 555-0123" },
-							{
-								name: "Kathryn Murphy",
-								role: "Agent",
-								phone: "(208) 555-0112",
-							},
+							{ name: "Trung Sky", role: "CEO", phone: "(239) 555-0108" },
+							{ name: "Thịnh Pi Thủ", role: "CTO", phone: "(603) 555-0123" },
+							{ name: "Mẫn Nhi", role: "Security", phone: "(208) 555-0112" },
 						].map((member, i) => (
 							<Card key={i} className="overflow-hidden">
-								<div className="relative">
+								<div className="relative aspect-[3/4] w-full">
 									<Image
-										src={`/placeholder.svg?height=400&width=300&text=Team${
-											i + 1
-										}`}
+										loader={imageLoader}
+										src={`/assets/images/agents/agent-${i + 1}.png`}
 										alt={member.name}
-										width={300}
-										height={400}
-										className="w-full h-auto object-cover"
+										fill
+										className="object-cover"
 									/>
 									<div className="absolute bottom-4 right-4">
 										<Button
@@ -273,7 +300,8 @@ export default function AboutPage() {
 								</p>
 								<div className="flex items-center gap-4">
 									<Image
-										src={`/placeholder.svg?height=50&width=50&text=T${i + 1}`}
+										loader={imageLoader}
+										src={`https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${testimonial.name}`}
 										alt={testimonial.name}
 										width={50}
 										height={50}
@@ -295,7 +323,8 @@ export default function AboutPage() {
 			<section className="py-16 relative">
 				<div className="absolute inset-0 z-0">
 					<Image
-						src="/placeholder.svg?height=600&width=1200"
+						loader={imageLoader}
+						src="/assets/images/about/premium_photo-1661962841993-99a07c27c9f4.avif"
 						alt="Background"
 						fill
 						className="object-cover brightness-50"
@@ -311,7 +340,7 @@ export default function AboutPage() {
 					</h2>
 
 					<div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-						<Button variant="outline" className="border-white/20 text-white">
+						<Button variant="secondary" className="border-white/20 ">
 							All Properties
 						</Button>
 
@@ -319,7 +348,8 @@ export default function AboutPage() {
 							<CardContent className="p-6 flex flex-col items-center">
 								<div className="mb-4 mt-2">
 									<Image
-										src="/placeholder.svg?height=40&width=40&text=V"
+										loader={imageLoader}
+										src="/assets/images/vila.svg"
 										alt="Villa icon"
 										width={40}
 										height={40}
@@ -334,10 +364,12 @@ export default function AboutPage() {
 							<CardContent className="p-6 flex flex-col items-center">
 								<div className="mb-4 mt-2">
 									<Image
-										src="/placeholder.svg?height=40&width=40&text=A"
+										loader={imageLoader}
+										src="/assets/images/apartment.svg"
 										alt="Apartment icon"
 										width={40}
 										height={40}
+										color="#fff"
 									/>
 								</div>
 								<h3 className="font-bold text-lg mb-1">Apartment</h3>
@@ -349,8 +381,10 @@ export default function AboutPage() {
 							<CardContent className="p-6 flex flex-col items-center">
 								<div className="mb-4 mt-2">
 									<Image
-										src="/placeholder.svg?height=40&width=40&text=W"
+										loader={imageLoader}
+										src="/assets/images/ware-house.svg"
 										alt="Warehouse icon"
+										color="#fff"
 										width={40}
 										height={40}
 									/>
