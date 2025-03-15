@@ -42,7 +42,7 @@ export default function Header() {
 						Home
 					</Link>
 					<Link
-						href="/properties"
+						href="/properties_1"
 						className="transition-colors hover:text-primary"
 					>
 						Properties
