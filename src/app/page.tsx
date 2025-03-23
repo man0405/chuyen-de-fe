@@ -489,6 +489,7 @@ export default function HomePage() {
 
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 						<PropertyCard
+							id={"1"}
 							title="Luxury Penthouse"
 							location="Manhattan, NY"
 							price="$4,200,000"
@@ -498,6 +499,7 @@ export default function HomePage() {
 							image="/assets/images/galary/galary-1.avif"
 						/>
 						<PropertyCard
+							id={"1"}
 							title="Waterfront Estate"
 							location="Miami Beach, FL"
 							price="$6,500,000"
@@ -507,6 +509,7 @@ export default function HomePage() {
 							image="/assets/images/galary/galary-1.avif"
 						/>
 						<PropertyCard
+							id={"1"}
 							title="Modern Townhouse"
 							location="San Francisco, CA"
 							price="$1,850,000"
@@ -516,6 +519,7 @@ export default function HomePage() {
 							image="/assets/images/galary/galary-1.avif"
 						/>
 						<PropertyCard
+							id={"1"}
 							title="Mountain Retreat"
 							location="Aspen, CO"
 							price="$3,900,000"
