@@ -3,9 +3,18 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Phone, Mail } from "lucide-react";
+import {
+	Phone,
+	Mail,
+	Facebook,
+	Twitter,
+	Instagram,
+	Sun,
+	Moon,
+} from "lucide-react";
 import { useTheme } from "next-themes";
 import imageLoader from "@/utils/imageLoader";
+import { ModeToggle } from "../ModeToggle";
 
 export default function Header() {
 	const { theme, systemTheme } = useTheme();
@@ -30,6 +39,49 @@ export default function Header() {
 
 	return (
 		<header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+			<div className="py-1 border-b border">
+				<div className="container mx-auto flex justify-between items-center">
+					<div className="flex items-center space-x-6">
+						<div className="flex items-center space-x-2">
+							<Mail size={16} className="text-orange-500" />
+							<span className="text-sm">contact@manportfolio.id.vn</span>
+						</div>
+						<div className="flex items-center space-x-2">
+							<Phone size={16} className="text-orange-500" />
+							<span className="text-sm">+84 339 228 240</span>
+						</div>
+					</div>
+					<div className="flex items-center space-x-6">
+						<div className="text-sm">
+							<Link
+								href="/login"
+								className="text-primary hover:text-orange-500"
+							>
+								Sign in
+							</Link>
+							<span className="mx-1">or</span>
+							<Link href="/signup" className="hover:text-orange-500">
+								Register
+							</Link>
+						</div>
+						{/* <div className="flex items-center space-x-3">
+							<Link href="#" aria-label="Facebook">
+								<Facebook size={16} className="hover:text-orange-500" />
+							</Link>
+							<Link href="#" aria-label="Twitter">
+								<Twitter size={16} className="hover:text-orange-500" />
+							</Link>
+							<Link href="#" aria-label="Instagram">
+								<Instagram size={16} className="hover:text-orange-500" />
+							</Link>
+						</div> */}
+						<div>
+							<ModeToggle />
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<div className="container flex h-16 items-center justify-between mx-auto">
 				<div className="flex items-center gap-2">
 					<div className="p-1">
