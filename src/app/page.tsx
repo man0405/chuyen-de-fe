@@ -386,14 +386,14 @@ export default function HomePage() {
 						<TeamMember
 							name="Sarah Johnson"
 							role="Senior Agent"
-							image="/assets/images/ceo.jpeg"
+							image="/assets/images/agents/chi.png"
 							rating={4.9}
 							properties={120}
 						/>
 						<TeamMember
 							name="Michael Chen"
 							role="Property Consultant"
-							image="/assets/images/ceo.jpeg"
+							image="/assets/images/agents/agent-2.png"
 							rating={4.8}
 							properties={98}
 						/>
@@ -535,8 +535,8 @@ export default function HomePage() {
 			{/* News Section */}
 			<section className="py-16 bg-primary-foreground  md:py-16">
 				<div className="container mx-auto px-4 md:px-6">
-					<div className="flex justify-between items-center mb-10">
-						<h2 className="text-3xl font-bold">Our Latest News Update</h2>
+					<div className="flex justify-between items-center mb-10 ">
+						<h2 className="text-3xl  font-bold text-white">Our Latest News Update</h2>
 						<Button variant="outline">View All News</Button>
 					</div>
 
