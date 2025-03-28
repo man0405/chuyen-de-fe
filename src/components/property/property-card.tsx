@@ -5,13 +5,22 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { RatingStars } from "./rating-stars";
 import Link from "next/link";
 import imageLoader from "@/utils/imageLoader";
-import { PropertyGridProps } from "./property-grid";
 import { House } from "@/types/HouseType";
 
 interface PropertyCardProps {
-  house_list: House;
+	listing: {
+		id: number;
+		title: string;
+		description: string;
+		rating: number;
+		reviews: number;
+		address: string;
+		phone: string;
+		price: string;
+		image: string;
+		popular: boolean;
+	};
 }
-
 export function PropertyCard({ listing }: PropertyCardProps) {
 	return (
 		<Card className="overflow-hidden">
