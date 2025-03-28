@@ -1,7 +1,8 @@
+import { House } from "@/types/HouseType";
 import { PropertyCard } from "./property-card";
 
-interface PropertyGridProps {
-  listings: Array<{
+export interface PropertyGridProps {
+  listings?: Array<{
     id: number;
     title: string;
     description: string;
@@ -13,13 +14,14 @@ interface PropertyGridProps {
     image: string;
     popular: boolean;
   }>;
+  house_list: House[];
 }
 
-export function PropertyGrid({ listings }: PropertyGridProps) {
+export function PropertyGrid({ listings, house_list }: PropertyGridProps) {
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {listings.map((listing) => (
-        <PropertyCard key={listing.id} listing={listing} />
+      {house_list?.map((listing) => (
+        <PropertyCard key={listing.house_id} house_list={listing} />
       ))}
     </div>
   );

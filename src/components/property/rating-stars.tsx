@@ -29,7 +29,7 @@ export function RatingStars({ rating, reviews = 1 }: RatingStarsProps) {
         </svg>
       ))}
       <span className="ml-2 text-sm font-medium">
-        {rating.toFixed(1)} ({reviews})
+        {rating?.toFixed(1)} ({reviews})
       </span>
     </div>
   );
