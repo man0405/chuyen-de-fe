@@ -33,8 +33,8 @@ export default function PropertyCard({
           alt={title}
           width={400}
           height={250}
-          loader={imageLoader}
           className="w-full h-[180px] sm:h-[220px] object-cover transition-transform duration-300 group-hover:scale-105"
+          loader={({ src }) => src}
         />
         <div className="absolute top-3 right-3">
           <Button
@@ -78,15 +78,15 @@ export default function PropertyCard({
         </div>
       </CardContent>
 
-      <CardFooter className=" p-3 flex justify-between items-center border-t">
+      <CardFooter className=" p-3 flex justify-between items-center border-t ">
         <span className="font-bold text-base sm:text-lg text-orange">
           {price}
         </span>
-        <Link href={`/properties/${id}`}>
+        <Link href={`/properties/${id}`} className="">
           <Button
             variant="outline"
             size="sm"
-            className="text-xs h-8 sm:text-sm"
+            className="text-xs h-8 sm:text-sm cursor-pointer"
           >
             View Details
           </Button>

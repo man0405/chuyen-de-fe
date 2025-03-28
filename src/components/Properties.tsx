@@ -37,6 +37,9 @@ export default function Properties() {
   const handlePrevious = () => {
     setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
   };
+  const handlePrevious = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
 
   const handleNext = () => {
     setCurrentImageIndex((prev) => (prev + 1) % images.length);
@@ -391,10 +394,10 @@ export default function Properties() {
                       <Image
                         src={listing.image}
                         alt={listing.title}
-                        loader={imageLoader}
                         width={600}
                         height={400}
                         className="w-full h-[160px] object-cover"
+                        loader={({ src }) => src}
                       />
                       <span className="absolute top-2 left-2 bg-red-500 text-white px-2 py-0.5 text-xs rounded">
                         POPULAR
@@ -407,9 +410,9 @@ export default function Properties() {
                           src="/assets/images/agents/agent-1.png"
                           alt="Agent"
                           width={24}
-                          loader={imageLoader}
                           height={24}
                           className="rounded-full border-2 border-white"
+                          loader={({ src }) => src}
                         />
                       </div>
                     </div>
