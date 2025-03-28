@@ -21,7 +21,7 @@ interface PropertyCardProps {
 
 export function PropertyCard({ listing }: PropertyCardProps) {
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden dark:bg-slate-800">
       <div className="relative">
         <div className="absolute left-4 top-4 z-10">
           {listing.popular && (

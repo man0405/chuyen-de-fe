@@ -97,7 +97,7 @@ export default function PropertyListing() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="mx-auto max-w-[1200px] bg-white rounded-lg shadow-sm my-8">
+      <div className="mx-auto max-w-[1200px] bg-white rounded-lg shadow-sm my-8 dark:bg-black">
         <PropertyFilters />
 
         <div className="px-6 pb-6">
