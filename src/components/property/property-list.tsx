@@ -3,26 +3,12 @@ import { Heart, Home, MapPin, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { RatingStars } from "./rating-stars";
+import { PropertyGridProps } from "./property-grid";
 
-interface PropertyListProps {
-  listings: Array<{
-    id: number;
-    title: string;
-    description: string;
-    rating: number;
-    reviews: number;
-    address: string;
-    phone: string;
-    price: string;
-    image: string;
-    popular: boolean;
-  }>;
-}
-
-export function PropertyList({ listings }: PropertyListProps) {
+export function PropertyList({ listings }: PropertyGridProps) {
   return (
     <div className="flex flex-col gap-4">
-      {listings.map((listing) => (
+      {listings?.map((listing) => (
         <Card key={listing.id} className="overflow-hidden">
           <div className="flex flex-col md:flex-row">
             <div className="relative md:w-1/3">

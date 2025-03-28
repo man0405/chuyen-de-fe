@@ -40,7 +40,7 @@ export default function StatsCounter({ value, label, suffix = "", duration = 200
     return (
         <div ref={ref} className="text-center">
             <h3 className="text-4xl font-bold mb-2 text-primary">
-                {inView ? count.toFixed(1) : "0.0"}
+                {inView ? count?.toFixed(1) : "0.0"}
                 {suffix}
             </h3>
             <p className="text-muted-foreground">{label}</p>
