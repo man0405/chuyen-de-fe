@@ -316,9 +316,11 @@ export default function AgencyDirectory() {
 								</div>
 							</div>
 
-							<Button className="flex items-center gap-2">
+							<Button className="">
+								<Link href={"/properties"} className="flex items-center gap-2">
 								Explore More
 								<ArrowRight className="h-4 w-4" />
+								</Link>
 							</Button>
 						</div>
 					</div>

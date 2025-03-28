@@ -197,7 +197,11 @@ export default function HomePage() {
               Find your dream property with our expert real estate services. We help you discover the perfect home.
             </p>
             <div className="flex flex-wrap gap-3 md:gap-4">
-              <Button className=" text-sm md:text-base">Get Started</Button>
+              <Button className=" text-sm md:text-base">
+				<Link href={"/properties"}>
+					Get Started
+				</Link>
+				</Button>
               <Button variant="outline" className="p-0 m-0">
                 <Link href={"/about"} className="text-sm md:text-base p-3">
                   Learn More
@@ -488,7 +492,7 @@ export default function HomePage() {
               image="/assets/images/galary/galary-2.avif"
             />
             <PropertyCard
-              id={"1"}
+              id={"2"}
               title="Luxury Villa with Pool"
               location="456 Ocean Drive, Miami"
               price="$1,250,000"
@@ -498,7 +502,7 @@ export default function HomePage() {
               image="/assets/images/galary/galary-2.avif"
             />
             <PropertyCard
-              id={"1"}
+              id={"3"}
               title="Cozy Family Home"
               location="789 Park Avenue, Chicago"
               price="$550,000"
