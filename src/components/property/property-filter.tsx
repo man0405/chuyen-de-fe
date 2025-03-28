@@ -19,7 +19,7 @@ export function PropertyFilters() {
         <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0">
           <TabsTrigger
             value="apartment"
-            className="rounded-none border-b-2 border-transparent px-4 py-3 data-[state=active]:border-primary"
+            className="rounded-none border-b-2 border-transparent px-4 py-3 data-[state=active]:border-primary data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
           >
             Apartment
           </TabsTrigger>
@@ -31,13 +31,14 @@ export function PropertyFilters() {
           </TabsTrigger>
           <TabsTrigger
             value="villa"
-            className="rounded-none border-b-2 border-transparent px-4 py-3 data-[state=active]:border-primary"
+            className="rounded-none border-b-2 border-transparent px-4 py-3 data-[state=active]:border-primary data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
           >
             Villa
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="general" className="p-6">
+        {/* Filter Component shown in all tabs */}
+        <div className="p-6">
           <div className="grid gap-4 md:grid-cols-3">
             <div>
               <p className="mb-2 text-sm font-medium">Keyword</p>
@@ -71,7 +72,7 @@ export function PropertyFilters() {
               </div>
             </div>
           </div>
-        </TabsContent>
+        </div>
       </Tabs>
     </div>
   );
