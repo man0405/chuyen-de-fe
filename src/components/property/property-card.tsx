@@ -46,6 +46,7 @@ export function PropertyCard({ listing }: PropertyCardProps) {
 					width={500}
 					height={300}
 					className="h-48 w-full object-cover"
+					loader={({src} )=> src}
 				/>
 				<div className="absolute bottom-4 right-4 z-10">
 					<div className="h-8 w-8 overflow-hidden rounded-full border-2 border-white">
@@ -54,6 +55,7 @@ export function PropertyCard({ listing }: PropertyCardProps) {
 							alt="User"
 							width={32}
 							height={32}
+							loader={({src} )=> src}
 							className="h-full w-full object-cover"
 						/>
 					</div>

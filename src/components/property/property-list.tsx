@@ -48,6 +48,7 @@ export function PropertyList({ listings }: PropertyListProps) {
                 width={500}
                 height={300}
                 className="h-48 w-full object-cover md:h-full"
+                loader={({src})=>src}
               />
             </div>
             <CardContent className="flex flex-1 flex-col p-4">
