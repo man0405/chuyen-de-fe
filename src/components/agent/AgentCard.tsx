@@ -82,10 +82,8 @@ export default function AgentCard(agent: AgentCardProps) {
 					className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors
                         pointer-events-auto
                     "
-					onClick={() => {
-						window.location.href = `/agents/${agent.id}`;
-					}}
 				>
+					<Link href={`/agents/${agent.id}`}></Link>
 					View All Listings
 				</Button>
 			</CardFooter>
