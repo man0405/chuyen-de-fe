@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { PropertyFilters } from "../../components/property/property-filter"
-import { PropertyListingHeader } from "../../components/property/property-listing-header"
-import { PropertyGrid } from "../../components/property/property-grid"
-import { PropertyList } from "../../components/property/property-list"
-import { PropertyMap } from "../../components/property/property-map"
-import { Skeleton } from "@/components/ui/skeleton"
-import { Building, MapPin, Search } from "lucide-react"
+import { useState, useEffect } from "react";
+import { PropertyFilters } from "../../components/property/property-filter";
+import { PropertyListingHeader } from "../../components/property/property-listing-header";
+import { PropertyGrid } from "../../components/property/property-grid";
+import { PropertyList } from "../../components/property/property-list";
+import { PropertyMap } from "../../components/property/property-map";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Building, MapPin, Search } from "lucide-react";
 
 // View options enum
-export type ViewType = "grid" | "list" | "map"
+export type ViewType = "grid" | "list" | "map";
 
 // Sample data for listings
 const listings = [
@@ -98,53 +98,64 @@ const listings = [
     popular: true,
     category: "restaurant",
   },
-]
+];
 
 export default function PropertyListing() {
-  const [view, setView] = useState<ViewType>("grid")
-  const [loading, setLoading] = useState(true)
-  const [filteredListings, setFilteredListings] = useState(listings)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("")
+  const [view, setView] = useState<ViewType>("grid");
+  const [loading, setLoading] = useState(true);
+  const [filteredListings, setFilteredListings] = useState(listings);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [location, setLocation] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   // Simulate loading
   useEffect(() => {
     const timer = setTimeout(() => {
-      setLoading(false)
-    }, 1000)
+      setLoading(false);
+    }, 1000);
 
-    return () => clearTimeout(timer)
-  }, [])
+    return () => clearTimeout(timer);
+  }, []);
 
   // Handle search and filtering
   const handleSearch = (term: string) => {
-    setSearchTerm(term)
-    filterListings(term, selectedCategory)
-  }
+    setSearchTerm(term);
+    filterListings(term, selectedCategory);
+  };
+
+  const handleLocation = (location: string) => {
+    setLocation(location);
+    filterListings(location, selectedCategory);
+  };
 
   const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category)
-    filterListings(searchTerm, category)
-  }
+    setSelectedCategory(category);
+    filterListings(searchTerm, category);
+  };
+
+  const handlePriceChange = (category: string) => {
+    setSelectedCategory(category);
+    filterListings(searchTerm, category);
+  };
 
   const filterListings = (term: string, category: string) => {
-    let filtered = [...listings]
+    let filtered = [...listings];
 
     if (term) {
       filtered = filtered.filter(
         (listing) =>
           listing.title.toLowerCase().includes(term.toLowerCase()) ||
           listing.description.toLowerCase().includes(term.toLowerCase()) ||
-          listing.address.toLowerCase().includes(term.toLowerCase()),
-      )
+          listing.address.toLowerCase().includes(term.toLowerCase())
+      );
     }
 
     if (category && category !== "all") {
-      filtered = filtered.filter((listing) => listing.category === category)
+      filtered = filtered.filter((listing) => listing.category === category);
     }
 
-    setFilteredListings(filtered)
-  }
+    setFilteredListings(filtered);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b ">
@@ -153,9 +164,12 @@ export default function PropertyListing() {
         <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,rgba(255,255,255,0.1),rgba(255,255,255,0.5))]"></div>
         <div className="container mx-auto px-4 py-12 relative z-10">
           <div className="max-w-3xl">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">Find Your Perfect Place</h1>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+              Find Your Perfect Place
+            </h1>
             <p className="text-white/90 text-lg mb-6">
-              Discover the best locations, restaurants, hotels, and more in your area
+              Discover the best locations, restaurants, hotels, and more in your
+              area
             </p>
             <div className="flex items-center gap-2 text-white/80 text-sm">
               <MapPin className="h-4 w-4" />
@@ -173,7 +187,12 @@ export default function PropertyListing() {
 
       <div className="container mx-auto px-4 py-8">
         <div className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 transform hover:shadow-xl">
-          <PropertyFilters onSearch={handleSearch} onCategoryChange={handleCategoryChange} />
+          <PropertyFilters
+            onSearch={handleSearch}
+            onCategoryChange={handleCategoryChange}
+            onPriceChange={handlePriceChange}
+            onLocation={handleLocation}
+          />
 
           <div className="px-6 pb-6">
             {loading ? (
@@ -205,15 +224,21 @@ export default function PropertyListing() {
               </div>
             ) : (
               <>
-                <PropertyListingHeader count={filteredListings.length} view={view} onViewChange={setView} />
+                <PropertyListingHeader
+                  count={filteredListings.length}
+                  view={view}
+                  onViewChange={setView}
+                />
 
                 {filteredListings.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-16 text-center">
                     <Search className="h-16 w-16 text-muted-foreground mb-4" />
-                    <h3 className="text-xl font-semibold mb-2">No results found</h3>
+                    <h3 className="text-xl font-semibold mb-2">
+                      No results found
+                    </h3>
                     <p className="text-muted-foreground max-w-md">
-                      We couldn't find any listings matching your search criteria. Try adjusting your filters or search
-                      term.
+                      We couldn't find any listings matching your search
+                      criteria. Try adjusting your filters or search term.
                     </p>
                   </div>
                 ) : (
@@ -235,6 +260,5 @@ export default function PropertyListing() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-
