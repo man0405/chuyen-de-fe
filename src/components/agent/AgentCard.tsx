@@ -83,8 +83,9 @@ export default function AgentCard(agent: AgentCardProps) {
                         pointer-events-auto
                     "
 				>
-					<Link href={`/agents/${agent.id}`}></Link>
-					View All Listings
+					<Link href={`/agents/${agent.id}`}>
+						View All Listings
+					</Link>
 				</Button>
 			</CardFooter>
 		</Card>
