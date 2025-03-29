@@ -25,7 +25,7 @@ export function PropertyCard({ listing }: PropertyCardProps) {
       <div className="relative">
         <div className="absolute left-4 top-4 z-10">
           {listing.popular && (
-            <span className="inline-block rounded bg-red-500 px-2 py-1 text-xs font-semibold uppercase text-white">
+            <span className="inline-block rounded bg-amber-300 px-2 py-1 text-xs font-semibold uppercase text-black">
               Popular
             </span>
           )}
@@ -34,7 +34,7 @@ export function PropertyCard({ listing }: PropertyCardProps) {
           <Button
             variant="outline"
             size="icon"
-            className="h-8 w-8 rounded-full bg-white"
+            className="h-8 w-8 rounded-full bg-accent"
           >
             <Heart className="h-4 w-4" />
           </Button>
@@ -77,7 +77,7 @@ export function PropertyCard({ listing }: PropertyCardProps) {
       </CardContent>
       <CardFooter className="flex items-center justify-between border-t p-4">
         <div className="font-semibold text-primary">{listing.price}</div>
-        <Button variant="outline" className="gap-2">
+        <Button variant="outline" className="gap-2 hover:bg-primary">
           <Home className="h-4 w-4" />
           Details
         </Button>

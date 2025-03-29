@@ -28,7 +28,7 @@ export function PropertyList({ listings }: PropertyListProps) {
             <div className="relative md:w-1/3">
               <div className="absolute left-4 top-4 z-10">
                 {listing.popular && (
-                  <span className="inline-block rounded bg-red-500 px-2 py-1 text-xs font-semibold uppercase text-white">
+                  <span className="inline-block rounded bg-amber-300 px-2 py-1 text-xs font-semibold uppercase text-black">
                     Popular
                   </span>
                 )}

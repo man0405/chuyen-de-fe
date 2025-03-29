@@ -96,7 +96,7 @@ export default function PropertyListing() {
   const [view, setView] = useState<ViewType>("grid");
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen dark:bg-black">
       <div className="mx-auto max-w-[1200px] bg-white rounded-lg shadow-sm my-8 dark:bg-black">
         <PropertyFilters />
 
