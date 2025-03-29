@@ -2,28 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import {
-	MapPin,
-	Phone,
-	Facebook,
-	Twitter,
-	Linkedin,
-	Instagram,
-	ArrowRight,
-	Play,
-	ChevronUp,
-} from "lucide-react";
+import { ArrowRight, Play, ChevronUp } from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardFooter,
-	CardHeader,
-} from "@/components/ui/card";
+
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import AgentCard from "@/components/agent/AgentCard";
 
 // Sample data for agents
 const agents = [
@@ -180,72 +165,81 @@ export default function AgencyDirectory() {
 					{/* Agents Grid */}
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 						{filteredAgents.map((agent) => (
-							<Card
+							// <Card
+							// 	key={agent.id}
+							// 	className="overflow-hidden group transition-all duration-300 hover:shadow-lg"
+							// >
+							// 	<CardHeader className="p-6 flex flex-row items-center gap-4">
+							// 		<Avatar className="h-16 w-16 border-2 border-primary/10">
+							// 			<AvatarImage src={agent.image} alt={agent.name} />
+							// 			<AvatarFallback>
+							// 				{agent.name.substring(0, 2).toUpperCase()}
+							// 			</AvatarFallback>
+							// 		</Avatar>
+							// 		<div>
+							// 			<h3 className="text-lg font-semibold">{agent.name}</h3>
+							// 		</div>
+							// 	</CardHeader>
+							// 	<CardContent className="px-6 pb-2">
+							// 		<p className="text-sm text-muted-foreground mb-4">
+							// 			{agent.description}
+							// 		</p>
+							// 		<div className="flex items-center gap-2 text-sm mb-2">
+							// 			<MapPin className="h-4 w-4 text-primary" />
+							// 			<span>{agent.address}</span>
+							// 		</div>
+							// 		<div className="flex items-center gap-2 text-sm">
+							// 			<Phone className="h-4 w-4 text-primary" />
+							// 			<span>{agent.phone}</span>
+							// 		</div>
+							// 	</CardContent>
+							// 	<CardFooter className="p-6 flex flex-col gap-4">
+							// 		<div className="flex items-center gap-2">
+							// 			<Link
+							// 				href="#"
+							// 				className="p-1.5 rounded-full bg-muted hover:bg-muted/80 transition-colors"
+							// 			>
+							// 				<Facebook className="h-4 w-4" />
+							// 			</Link>
+							// 			<Link
+							// 				href="#"
+							// 				className="p-1.5 rounded-full bg-muted hover:bg-muted/80 transition-colors"
+							// 			>
+							// 				<Twitter className="h-4 w-4" />
+							// 			</Link>
+							// 			<Link
+							// 				href="#"
+							// 				className="p-1.5 rounded-full bg-muted hover:bg-muted/80 transition-colors"
+							// 			>
+							// 				<Linkedin className="h-4 w-4" />
+							// 			</Link>
+							// 			<Link
+							// 				href="#"
+							// 				className="p-1.5 rounded-full bg-muted hover:bg-muted/80 transition-colors"
+							// 			>
+							// 				<Instagram className="h-4 w-4" />
+							// 			</Link>
+							// 		</div>
+							// 		<Button
+							// 			variant="outline"
+							// 			className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
+							// 			onClick={() => {
+							// 				window.location.href = `/agents/${agent.id}`;
+							// 			}}
+							// 		>
+							// 			View All Listings
+							// 		</Button>
+							// 	</CardFooter>
+							// </Card>
+							<AgentCard
 								key={agent.id}
-								className="overflow-hidden group transition-all duration-300 hover:shadow-lg"
-							>
-								<CardHeader className="p-6 flex flex-row items-center gap-4">
-									<Avatar className="h-16 w-16 border-2 border-primary/10">
-										<AvatarImage src={agent.image} alt={agent.name} />
-										<AvatarFallback>
-											{agent.name.substring(0, 2).toUpperCase()}
-										</AvatarFallback>
-									</Avatar>
-									<div>
-										<h3 className="text-lg font-semibold">{agent.name}</h3>
-									</div>
-								</CardHeader>
-								<CardContent className="px-6 pb-2">
-									<p className="text-sm text-muted-foreground mb-4">
-										{agent.description}
-									</p>
-									<div className="flex items-center gap-2 text-sm mb-2">
-										<MapPin className="h-4 w-4 text-primary" />
-										<span>{agent.address}</span>
-									</div>
-									<div className="flex items-center gap-2 text-sm">
-										<Phone className="h-4 w-4 text-primary" />
-										<span>{agent.phone}</span>
-									</div>
-								</CardContent>
-								<CardFooter className="p-6 flex flex-col gap-4">
-									<div className="flex items-center gap-2">
-										<Link
-											href="#"
-											className="p-1.5 rounded-full bg-muted hover:bg-muted/80 transition-colors"
-										>
-											<Facebook className="h-4 w-4" />
-										</Link>
-										<Link
-											href="#"
-											className="p-1.5 rounded-full bg-muted hover:bg-muted/80 transition-colors"
-										>
-											<Twitter className="h-4 w-4" />
-										</Link>
-										<Link
-											href="#"
-											className="p-1.5 rounded-full bg-muted hover:bg-muted/80 transition-colors"
-										>
-											<Linkedin className="h-4 w-4" />
-										</Link>
-										<Link
-											href="#"
-											className="p-1.5 rounded-full bg-muted hover:bg-muted/80 transition-colors"
-										>
-											<Instagram className="h-4 w-4" />
-										</Link>
-									</div>
-									<Button
-										variant="outline"
-										className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
-										onClick={() => {
-											window.location.href = `/agents/${agent.id}`;
-										}}
-									>
-										View All Listings
-									</Button>
-								</CardFooter>
-							</Card>
+								id={agent.id}
+								name={agent.name}
+								image={agent.image}
+								address={agent.address}
+								phone={agent.phone}
+								description={agent.description}
+							/>
 						))}
 					</div>
 				</div>
@@ -318,8 +312,8 @@ export default function AgencyDirectory() {
 
 							<Button className="">
 								<Link href={"/properties"} className="flex items-center gap-2">
-								Explore More
-								<ArrowRight className="h-4 w-4" />
+									Explore More
+									<ArrowRight className="h-4 w-4" />
 								</Link>
 							</Button>
 						</div>
