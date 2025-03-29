@@ -105,6 +105,7 @@ export default function PropertyListing() {
   const [loading, setLoading] = useState(true);
   const [filteredListings, setFilteredListings] = useState(listings);
   const [searchTerm, setSearchTerm] = useState("");
+  const [location, setLocation] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
 
   // Simulate loading
@@ -120,6 +121,11 @@ export default function PropertyListing() {
   const handleSearch = (term: string) => {
     setSearchTerm(term);
     filterListings(term, selectedCategory);
+  };
+
+  const handleLocation = (location: string) => {
+    setLocation(location);
+    filterListings(location, selectedCategory);
   };
 
   const handleCategoryChange = (category: string) => {
@@ -185,6 +191,7 @@ export default function PropertyListing() {
             onSearch={handleSearch}
             onCategoryChange={handleCategoryChange}
             onPriceChange={handlePriceChange}
+            onLocation={handleLocation}
           />
 
           <div className="px-6 pb-6">

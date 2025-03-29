@@ -37,12 +37,14 @@ interface PropertyFiltersProps {
   onSearch?: (term: string) => void;
   onCategoryChange?: (category: string) => void;
   onPriceChange?: (category: string) => void;
+  onLocation?: (term: string) => void;
 }
 
 export function PropertyFilters({
   onSearch,
   onCategoryChange,
   onPriceChange,
+  onLocation,
 }: PropertyFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -51,12 +53,27 @@ export function PropertyFilters({
   const [searchTerm, setSearchTerm] = useState(() => {
     return searchParams?.get("search") || "";
   });
+
+  const [location, setLocation] = useState(() => {
+    return searchParams?.get("location") || "";
+  });
+
   const [category, setCategory] = useState(() => {
     return searchParams?.get("category") || "";
   });
 
   const [price, setPrice] = useState(() => {
     return searchParams?.get("price") || "";
+  });
+
+  const [resType, setResType] = useState(() => {
+    return searchParams?.get("resType") || "";
+  });
+  const [hotelType, setHotelType] = useState(() => {
+    return searchParams?.get("hotelType") || "";
+  });
+  const [serviceType, setServiceType] = useState(() => {
+    return searchParams?.get("serviceType") || "";
   });
 
   const [priceRange, setPriceRange] = useState(() => {
@@ -122,6 +139,11 @@ export function PropertyFilters({
     if (onSearch) onSearch(searchTerm);
   };
 
+  const handleLocation = () => {
+    updateSearchParams({ location: location });
+    if (onLocation) onLocation(location);
+  };
+
   const handleCategoryChange = (value: string) => {
     setCategory(value);
     updateSearchParams({ category: value });
@@ -159,24 +181,70 @@ export function PropertyFilters({
       );
     }
   };
+  const handleResType = (value: string) => {
+    setResType(value);
+    updateSearchParams({ resType: value });
+
+    // Add to active filters if not "all"
+    if (value && value !== "all") {
+      if (!activeFilters.includes(`Restaurant Type: ${value}`)) {
+        setActiveFilters([...activeFilters, `Restaurant Type: ${value}`]);
+      }
+    } else {
+      // Remove category filters
+      setActiveFilters(
+        activeFilters.filter((filter) => !filter.startsWith("Restaurant Type:"))
+      );
+    }
+  };
+  const handleHotelType = (value: string) => {
+    setHotelType(value);
+    updateSearchParams({ hotelType: value });
+
+    // Add to active filters if not "all"
+    if (value && value !== "all") {
+      if (!activeFilters.includes(`Hotel Type: ${value}`)) {
+        setActiveFilters([...activeFilters, `Hotel Type: ${value}`]);
+      }
+    } else {
+      // Remove category filters
+      setActiveFilters(
+        activeFilters.filter((filter) => !filter.startsWith("Hotel Type:"))
+      );
+    }
+  };
+  const handleServiceType = (value: string) => {
+    setServiceType(value);
+    updateSearchParams({ serviceType: value });
+
+    // Add to active filters if not "all"
+    if (value && value !== "all") {
+      if (!activeFilters.includes(`Service Type: ${value}`)) {
+        setActiveFilters([...activeFilters, `Service Type: ${value}`]);
+      }
+    } else {
+      // Remove category filters
+      setActiveFilters(
+        activeFilters.filter((filter) => !filter.startsWith("Service Type:"))
+      );
+    }
+  };
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
-    updateSearchParams({ tab: value });
 
-    // Automatically remove filters based on the tab
-    if (value === "general") {
-      // Remove category filters
-      setActiveFilters(activeFilters.filter((f) => !f.startsWith("Category:")));
-    } else if (value === "restaurant") {
-      // Remove price filters
-      setActiveFilters(activeFilters.filter((f) => !f.startsWith("Price:")));
-    } else if (value === "hotel") {
-      // Remove amenities filters
-      setActiveFilters(
-        activeFilters.filter((f) => !f.startsWith("Amenities:"))
-      );
-    }
+    // Clear all existing search parameters
+    const url = new URL(window.location.href);
+    url.search = ""; // Remove all search parameters
+
+    // Add only the new tab parameter
+    url.searchParams.set("tab", value);
+
+    // Update the router with the new URL
+    router.push(url.pathname + url.search);
+
+    // Clear active filters to reflect the new tab state
+    setActiveFilters([]);
   };
 
   const handlePriceRangeChange = (value: number[]) => {
@@ -218,9 +286,15 @@ export function PropertyFilters({
     if (onCategoryChange) onCategoryChange("");
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDownSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSearch();
+    }
+  };
+
+  const handleKeyDownLocation = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleLocation();
     }
   };
 
@@ -267,7 +341,7 @@ export function PropertyFilters({
                   placeholder="Looking For?"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  onKeyDown={handleKeyDown}
+                  onKeyDown={handleKeyDownSearch}
                   className="pr-10"
                 />
                 <Button
@@ -298,7 +372,16 @@ export function PropertyFilters({
             <div>
               <p className="mb-2 text-sm font-medium">Location</p>
               <div className="flex gap-2">
-                <Input placeholder="Location" className="flex-1" />
+                <Input
+                  placeholder="Location"
+                  value={location}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyDown={handleKeyDownLocation}
+                  className="flex-1"
+                />
+                <Button variant="outline" onClick={handleLocation}>
+                  <Search className="h-4 w-4" />
+                </Button>
                 <Sheet>
                   <SheetTrigger asChild>
                     <Button variant="outline">
@@ -465,8 +548,14 @@ export function PropertyFilters({
             <div>
               <p className="mb-2 text-sm font-medium">Location</p>
               <div className="flex gap-2">
-                <Input placeholder="Location" className="flex-1" />
-                <Button variant="outline">
+                <Input
+                  placeholder="Location"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  onKeyDown={handleKeyDownLocation}
+                  className="flex-1"
+                />
+                <Button variant="outline" onClick={handleLocation}>
                   <Search className="h-4 w-4" />
                 </Button>
               </div>
@@ -478,7 +567,7 @@ export function PropertyFilters({
           <div className="grid gap-4 md:grid-cols-3">
             <div>
               <p className="mb-2 text-sm font-medium">Hotel Type</p>
-              <Select>
+              <Select value={resType} onValueChange={handleResType}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select Type" />
                 </SelectTrigger>
@@ -493,7 +582,7 @@ export function PropertyFilters({
             </div>
             <div>
               <p className="mb-2 text-sm font-medium">Star Rating</p>
-              <Select>
+              <Select value={hotelType} onValueChange={handleHotelType}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select Rating" />
                 </SelectTrigger>
@@ -508,8 +597,14 @@ export function PropertyFilters({
             <div>
               <p className="mb-2 text-sm font-medium">Location</p>
               <div className="flex gap-2">
-                <Input placeholder="Location" className="flex-1" />
-                <Button variant="outline">
+                <Input
+                  placeholder="Location"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  onKeyDown={handleKeyDownLocation}
+                  className="flex-1"
+                />
+                <Button variant="outline" onClick={handleLocation}>
                   <Search className="h-4 w-4" />
                 </Button>
               </div>
@@ -521,7 +616,7 @@ export function PropertyFilters({
           <div className="grid gap-4 md:grid-cols-3">
             <div>
               <p className="mb-2 text-sm font-medium">Service Type</p>
-              <Select>
+              <Select value={serviceType} onValueChange={handleServiceType}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select Type" />
                 </SelectTrigger>
@@ -536,7 +631,7 @@ export function PropertyFilters({
             </div>
             <div>
               <p className="mb-2 text-sm font-medium">Price Range</p>
-              <Select>
+              <Select value={price} onValueChange={handlePrice}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select Price" />
                 </SelectTrigger>
@@ -551,8 +646,14 @@ export function PropertyFilters({
             <div>
               <p className="mb-2 text-sm font-medium">Location</p>
               <div className="flex gap-2">
-                <Input placeholder="Location" className="flex-1" />
-                <Button variant="outline">
+                <Input
+                  placeholder="Location"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  onKeyDown={handleKeyDownLocation}
+                  className="flex-1"
+                />
+                <Button variant="outline" onClick={handleLocation}>
                   <Search className="h-4 w-4" />
                 </Button>
               </div>

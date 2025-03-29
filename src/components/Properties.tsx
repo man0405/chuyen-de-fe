@@ -37,9 +37,6 @@ export default function Properties() {
   const handlePrevious = () => {
     setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
   };
-  const handlePrevious = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
-  };
 
   const handleNext = () => {
     setCurrentImageIndex((prev) => (prev + 1) % images.length);
