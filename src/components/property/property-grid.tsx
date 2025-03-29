@@ -1,6 +1,6 @@
 import { PropertyCard } from "./property-card";
 
-interface PropertyGridProps {
+export interface PropertyGridProps {
   listings: Array<{
     id: number;
     title: string;
