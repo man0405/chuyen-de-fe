@@ -375,7 +375,7 @@ export function PropertyFilters({
                 <Input
                   placeholder="Location"
                   value={location}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={(e) => setLocation(e.target.value)}
                   onKeyDown={handleKeyDownLocation}
                   className="flex-1"
                 />
