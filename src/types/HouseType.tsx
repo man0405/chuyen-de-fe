@@ -13,6 +13,7 @@ export interface House extends BaseType {
   bed: string;
   bath: string;
   room: string;
+  default_image: string;
   star: number;
   location: string;
   status: string;
