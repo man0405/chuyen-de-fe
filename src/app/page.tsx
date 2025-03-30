@@ -1,12 +1,12 @@
-"use client"
-import NewsCard from "@/components/homepage/NewsCard"
-import PropertyCard from "@/components/homepage/PropertyCard"
-import StatsCounter from "@/components/homepage/StatsCounters"
-import TeamMember from "@/components/homepage/TeamMember"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+"use client";
+import NewsCard from "@/components/homepage/NewsCard";
+import PropertyCard from "@/components/homepage/PropertyCard";
+import StatsCounter from "@/components/homepage/StatsCounters";
+import TeamMember from "@/components/homepage/TeamMember";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Home,
   Search,
@@ -21,10 +21,13 @@ import {
   Heart,
   Phone,
   DollarSign,
-} from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
-import { useState } from "react"
+  House,
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { House as HouseType } from "@/types/HouseType";
+import { HouseService } from "@/utils/services/HouseService";
 
 // Sample data for listings
 const listings = [
@@ -106,83 +109,107 @@ const listings = [
       "https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Bakery
     popular: true,
   },
-]
+];
 
 // Listing Card Component
 const ListingCard = ({ listing, onFavorite }: any) => {
-  const [isFavorite, setIsFavorite] = useState(false)
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const handleFavoriteClick = () => {
-    setIsFavorite(!isFavorite)
-    if (onFavorite) onFavorite(listing.id)
-  }
+    setIsFavorite(!isFavorite);
+    if (onFavorite) onFavorite(listing.id);
+  };
 
   return (
     <Link href={"/properties/" + listing.id}>
-  <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all hover:shadow-lg">
-      <div className="relative">
-        <Image
-          src={listing.image || "/placeholder.svg"}
-          alt={listing.title}
-          width={400}
-          height={250}
-          className="w-full h-48 object-cover"
-          loader={({ src }) => src}
-        />
-        <button
-          onClick={handleFavoriteClick}
-          className="absolute top-3 right-3 p-2 bg-white/80 dark:bg-gray-800/80 rounded-full shadow-sm hover:bg-white dark:hover:bg-gray-700 transition-colors"
-        >
-          <Heart className={`h-5 w-5 ${isFavorite ? "fill-red-500 text-red-500" : "text-gray-500"}`} />
-        </button>
-      </div>
-      <div className="p-4">
-        <div className="flex justify-between items-start mb-2">
-          <h3 className="font-bold text-lg line-clamp-1">{listing.title}</h3>
-          <div className="flex items-center">
-            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 mr-1" />
-            <span className="text-sm font-medium">{listing.rating.toFixed(1)}</span>
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all hover:shadow-lg">
+        <div className="relative">
+          <Image
+            src={listing.image || "/placeholder.svg"}
+            alt={listing.title}
+            width={400}
+            height={250}
+            className="w-full h-48 object-cover"
+            loader={({ src }) => src}
+          />
+          <button
+            onClick={handleFavoriteClick}
+            className="absolute top-3 right-3 p-2 bg-white/80 dark:bg-gray-800/80 rounded-full shadow-sm hover:bg-white dark:hover:bg-gray-700 transition-colors"
+          >
+            <Heart
+              className={`h-5 w-5 ${
+                isFavorite ? "fill-red-500 text-red-500" : "text-gray-500"
+              }`}
+            />
+          </button>
+        </div>
+        <div className="p-4">
+          <div className="flex justify-between items-start mb-2">
+            <h3 className="font-bold text-lg line-clamp-1">{listing.title}</h3>
+            <div className="flex items-center">
+              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 mr-1" />
+              <span className="text-sm font-medium">
+                {listing.rating.toFixed(1)}
+              </span>
+            </div>
+          </div>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 line-clamp-2">
+            {listing.description}
+          </p>
+          <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
+            <MapPin className="h-4 w-4 mr-1 flex-shrink-0" />
+            <span className="truncate">{listing.address}</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center text-sm">
+              <Phone className="h-4 w-4 mr-1 text-gray-500 dark:text-gray-400" />
+              <span className="text-gray-500 dark:text-gray-400">
+                {listing.phone}
+              </span>
+            </div>
+            <div className="font-bold text-primary">{listing.price}</div>
           </div>
         </div>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 line-clamp-2">{listing.description}</p>
-        <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
-          <MapPin className="h-4 w-4 mr-1 flex-shrink-0" />
-          <span className="truncate">{listing.address}</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center text-sm">
-            <Phone className="h-4 w-4 mr-1 text-gray-500 dark:text-gray-400" />
-            <span className="text-gray-500 dark:text-gray-400">{listing.phone}</span>
-          </div>
-          <div className="font-bold text-primary">{listing.price}</div>
-        </div>
       </div>
-    </div>
     </Link>
-  
-  )
-}
+  );
+};
 
 export default function HomePage() {
-  const [activeTab, setActiveTab] = useState("buy")
-  const [searchQuery, setSearchQuery] = useState("")
-  const [filteredListings, setFilteredListings] = useState(listings)
+  const [activeTab, setActiveTab] = useState("buy");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredListings, setFilteredListings] = useState(listings);
 
-  const handleSearch = (e:any) => {
-    e.preventDefault()
+  const [houseData, setHouseData] = useState<HouseType[]>([]);
+
+  const fetchHouseData = async () => {
+    try {
+      const data = await HouseService.find();
+      setHouseData(data);
+    } finally {
+      console.log("House data fetched successfully");
+    }
+  };
+
+  useEffect(() => {
+    fetchHouseData();
+  }, []);
+
+  const handleSearch = (e: any) => {
+    e.preventDefault();
     const filtered = listings.filter(
       (listing) =>
         listing.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         listing.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        listing.address.toLowerCase().includes(searchQuery.toLowerCase()),
-    )
-    setFilteredListings(filtered)
-  }
+        listing.address.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredListings(filtered);
+  };
 
-  const handleFavorite = (id:string) => {
-    console.log(`Toggled favorite for listing ${id}`)
+  const handleFavorite = (id: string) => {
+    console.log(`Toggled favorite for listing ${id}`);
     // Here you would typically update a favorites list in state or backend
-  }
+  };
 
   return (
     <div className="min-h-screen flex flex-col mx-auto ">
@@ -194,14 +221,13 @@ export default function HomePage() {
               Global Home For Your Future Generation
             </h1>
             <p className=" text-base md:text-lg max-w-md">
-              Find your dream property with our expert real estate services. We help you discover the perfect home.
+              Find your dream property with our expert real estate services. We
+              help you discover the perfect home.
             </p>
             <div className="flex flex-wrap gap-3 md:gap-4">
               <Button className=" text-sm md:text-base">
-				<Link href={"/properties"}>
-					Get Started
-				</Link>
-				</Button>
+                <Link href={"/properties"}>Get Started</Link>
+              </Button>
               <Button variant="outline" className="p-0 m-0">
                 <Link href={"/about"} className="text-sm md:text-base p-3">
                   Learn More
@@ -239,14 +265,22 @@ export default function HomePage() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-8 md:mb-10">
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-4">Find Your Perfect Property</h2>
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-4">
+                Find Your Perfect Property
+              </h2>
               <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto">
-                Discover amazing properties and businesses in your area with our advanced search tools
+                Discover amazing properties and businesses in your area with our
+                advanced search tools
               </p>
             </div>
 
             <Card className="p-6 md:p-8 shadow-xl border-0 bg-white dark:bg-gray-800 rounded-2xl">
-              <Tabs defaultValue="buy" value={activeTab} onValueChange={setActiveTab} className="w-full">
+              <Tabs
+                defaultValue="buy"
+                value={activeTab}
+                onValueChange={setActiveTab}
+                className="w-full"
+              >
                 <TabsList className="flex mb-6 md:mb-8 p-1 bg-gray-100 dark:bg-gray-700 rounded-xl">
                   <TabsTrigger
                     value="buy"
@@ -275,7 +309,9 @@ export default function HomePage() {
                   <form onSubmit={handleSearch} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div className="space-y-2">
-                        <label className="text-sm font-medium mb-1 block">Search Properties</label>
+                        <label className="text-sm font-medium mb-1 block">
+                          Search Properties
+                        </label>
                         <div className="relative">
                           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
                           <Input
@@ -287,7 +323,9 @@ export default function HomePage() {
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <label className="text-sm font-medium mb-1 block">Property Type</label>
+                        <label className="text-sm font-medium mb-1 block">
+                          Property Type
+                        </label>
                         <div className="relative">
                           <Building className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
                           <select className="w-full h-10 pl-10 pr-4 rounded-md border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-sm">
@@ -302,9 +340,13 @@ export default function HomePage() {
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <label className="text-sm font-medium mb-1 block">Price Range</label>
+                        <label className="text-sm font-medium mb-1 block">
+                          Price Range
+                        </label>
                         <div className="relative">
-                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">€</span>
+                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                            €
+                          </span>
                           <Input
                             className="pl-10 text-sm bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600"
                             placeholder="Max Price"
@@ -324,7 +366,9 @@ export default function HomePage() {
                   {/* Search Results */}
                   <div className="mt-8">
                     <div className="flex justify-between items-center mb-4">
-                      <h3 className="text-lg font-bold">{filteredListings.length} Properties Found</h3>
+                      <h3 className="text-lg font-bold">
+                        {filteredListings.length} Properties Found
+                      </h3>
                       <div className="flex items-center gap-2">
                         <span className="text-sm text-gray-500">Sort by:</span>
                         <select className="text-sm border rounded-md p-1 bg-transparent">
@@ -338,7 +382,11 @@ export default function HomePage() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {filteredListings.map((listing) => (
-                        <ListingCard key={listing.id} listing={listing} onFavorite={handleFavorite} />
+                        <ListingCard
+                          key={listing.id}
+                          listing={listing}
+                          onFavorite={handleFavorite}
+                        />
                       ))}
                     </div>
                   </div>
@@ -348,7 +396,9 @@ export default function HomePage() {
                   <form onSubmit={handleSearch} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div className="space-y-2">
-                        <label className="text-sm font-medium mb-1 block">Search Rentals</label>
+                        <label className="text-sm font-medium mb-1 block">
+                          Search Rentals
+                        </label>
                         <div className="relative">
                           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
                           <Input
@@ -360,7 +410,9 @@ export default function HomePage() {
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <label className="text-sm font-medium mb-1 block">Property Type</label>
+                        <label className="text-sm font-medium mb-1 block">
+                          Property Type
+                        </label>
                         <div className="relative">
                           <Building className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
                           <select className="w-full h-10 pl-10 pr-4 rounded-md border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-sm">
@@ -375,9 +427,13 @@ export default function HomePage() {
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <label className="text-sm font-medium mb-1 block">Monthly Rent</label>
+                        <label className="text-sm font-medium mb-1 block">
+                          Monthly Rent
+                        </label>
                         <div className="relative">
-                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">€</span>
+                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                            €
+                          </span>
                           <Input
                             className="pl-10 text-sm bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600"
                             placeholder="Max Rent"
@@ -397,7 +453,9 @@ export default function HomePage() {
                   {/* Search Results */}
                   <div className="mt-8">
                     <div className="flex justify-between items-center mb-4">
-                      <h3 className="text-lg font-bold">{filteredListings.length} Properties Found</h3>
+                      <h3 className="text-lg font-bold">
+                        {filteredListings.length} Properties Found
+                      </h3>
                       <div className="flex items-center gap-2">
                         <span className="text-sm text-gray-500">Sort by:</span>
                         <select className="text-sm border rounded-md p-1 bg-transparent">
@@ -411,7 +469,11 @@ export default function HomePage() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {filteredListings.map((listing) => (
-                        <ListingCard key={listing.id} listing={listing} onFavorite={handleFavorite} />
+                        <ListingCard
+                          key={listing.id}
+                          listing={listing}
+                          onFavorite={handleFavorite}
+                        />
                       ))}
                     </div>
                   </div>
@@ -421,7 +483,9 @@ export default function HomePage() {
                   <form className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <label className="text-sm font-medium mb-1 block">Property Address</label>
+                        <label className="text-sm font-medium mb-1 block">
+                          Property Address
+                        </label>
                         <div className="relative">
                           <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
                           <Input
@@ -431,7 +495,9 @@ export default function HomePage() {
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <label className="text-sm font-medium mb-1 block">Property Type</label>
+                        <label className="text-sm font-medium mb-1 block">
+                          Property Type
+                        </label>
                         <div className="relative">
                           <Building className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
                           <select className="w-full h-10 pl-10 pr-4 rounded-md border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-sm">
@@ -447,7 +513,9 @@ export default function HomePage() {
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-medium mb-1 block">Property Details</label>
+                      <label className="text-sm font-medium mb-1 block">
+                        Property Details
+                      </label>
                       <textarea
                         className="w-full p-3 rounded-md border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-sm"
                         rows={4}
@@ -470,47 +538,41 @@ export default function HomePage() {
         <div className="container px-4 md:px-6 mx-auto">
           <div className="flex flex-col md:flex-row mb-6 md:mb-10 gap-4 justify-between items-center ">
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold">Discover Top Properties</h2>
-              <p className="text-muted-foreground">Explore our handpicked selection of top properties</p>
+              <h2 className="text-2xl md:text-3xl font-bold">
+                Discover Top Properties
+              </h2>
+              <p className="text-muted-foreground">
+                Explore our handpicked selection of top properties
+              </p>
             </div>
             <Button variant="default" className="p-0">
-              <Link href={"/properties"} className="flex items-center w-full md:w-auto p-3">
+              <Link
+                href={"/properties"}
+                className="flex items-center w-full md:w-auto p-3"
+              >
                 View All <ChevronRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            <PropertyCard
-              id={"1"}
-              title="Modern Apartment in Downtown"
-              location="123 Main Street, New York"
-              price="$350,000"
-              beds={2}
-              baths={2}
-              sqft={1200}
-              image="/assets/images/galary/galary-2.avif"
-            />
-            <PropertyCard
-              id={"2"}
-              title="Luxury Villa with Pool"
-              location="456 Ocean Drive, Miami"
-              price="$1,250,000"
-              beds={4}
-              baths={3}
-              sqft={3200}
-              image="/assets/images/galary/galary-2.avif"
-            />
-            <PropertyCard
-              id={"3"}
-              title="Cozy Family Home"
-              location="789 Park Avenue, Chicago"
-              price="$550,000"
-              beds={3}
-              baths={2}
-              sqft={1800}
-              image="/assets/images/galary/galary-2.avif"
-            />
+            {houseData.slice(0, 3).map((house) => (
+              <PropertyCard
+                key={house.house_id}
+                id={house.house_id}
+                title={house.description}
+                location={house.location}
+                price={house.price}
+                beds={Number(house.bed)}
+                baths={Number(house.bath)}
+                sqft={Number(house.size)}
+                image={
+                  house.image
+                    ? house.image
+                    : "/assets/images/galary/galary-2.avif"
+                }
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -521,7 +583,8 @@ export default function HomePage() {
           <div className="text-center mb-10">
             <h2 className="text-3xl font-bold mb-2">Our Latest Projects</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Take a look at our most recent developments and upcoming properties
+              Take a look at our most recent developments and upcoming
+              properties
             </p>
           </div>
 
@@ -557,7 +620,9 @@ export default function HomePage() {
       {/* Why Choose Us Section */}
       <section className="py-16 md:py-16 ">
         <div className="container mx-auto  px-4 md:px-6">
-          <h2 className="text-3xl font-bold text-center  mb-12">Why Choose Us</h2>
+          <h2 className="text-3xl font-bold text-center  mb-12">
+            Why Choose Us
+          </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
             <div className="flex flex-col items-center text-center">
@@ -565,7 +630,9 @@ export default function HomePage() {
                 <Home className="h-6 w-6 text-orange" />
               </div>
               <h3 className=" font-semibold mb-2">Exclusive Properties</h3>
-              <p className="text-accent-foreground text-sm">Access to exclusive listings not available elsewhere</p>
+              <p className="text-accent-foreground text-sm">
+                Access to exclusive listings not available elsewhere
+              </p>
             </div>
             <div className="flex flex-col items-center text-center">
               <div className="bg-white/10 p-4 rounded-full mb-4">
@@ -573,7 +640,8 @@ export default function HomePage() {
               </div>
               <h3 className=" font-semibold mb-2">Expert Agents</h3>
               <p className="text-accent-foreground text-sm">
-                Professional agents with years of experience in the real estate market
+                Professional agents with years of experience in the real estate
+                market
               </p>
             </div>
             <div className="flex flex-col items-center text-center">
@@ -581,21 +649,27 @@ export default function HomePage() {
                 <Shield className="h-6 w-6 text-orange" />
               </div>
               <h3 className=" font-semibold mb-2">Secure Transactions</h3>
-              <p className="text-accent-foreground text-sm">Safe and secure property transactions</p>
+              <p className="text-accent-foreground text-sm">
+                Safe and secure property transactions
+              </p>
             </div>
             <div className="flex flex-col items-center text-center">
               <div className="bg-white/10 p-4 rounded-full mb-4">
                 <Clock className="h-6 w-6 text-orange" />
               </div>
               <h3 className="font-semibold mb-2">24/7 Support</h3>
-              <p className="text-accent-foreground text-sm">Round-the-clock customer support</p>
+              <p className="text-accent-foreground text-sm">
+                Round-the-clock customer support
+              </p>
             </div>
             <div className="flex flex-col items-center text-center">
               <div className="bg-white/10 p-4 rounded-full mb-4">
                 <MessageSquare className="h-6 w-6 text-orange" />
               </div>
               <h3 className="font-semibold mb-2">Free Consultation</h3>
-              <p className="text-accent-foreground text-sm">Get free expert advice on your property needs</p>
+              <p className="text-accent-foreground text-sm">
+                Get free expert advice on your property needs
+              </p>
             </div>
           </div>
         </div>
@@ -653,17 +727,21 @@ export default function HomePage() {
 
             {/* Right Testimonial Section */}
             <div>
-              <h2 className="text-4xl font-bold mb-6 text-white">What Your Client Say?</h2>
+              <h2 className="text-4xl font-bold mb-6 text-white">
+                What Your Client Say?
+              </h2>
               <p className="text-white mb-8 leading-relaxed">
-                We pride ourselves on providing exceptional service to our clients. Here's what they have to say about
-                their experience with us.
+                We pride ourselves on providing exceptional service to our
+                clients. Here's what they have to say about their experience
+                with us.
               </p>
 
               {/* Testimonial Box */}
               <div className="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-lg mb-6">
                 <p className="italic mb-6 text-lg">
-                  "Working with this real estate agency was a fantastic experience. They found us our dream home within
-                  our budget and made the entire process smooth and stress-free."
+                  "Working with this real estate agency was a fantastic
+                  experience. They found us our dream home within our budget and
+                  made the entire process smooth and stress-free."
                 </p>
 
                 <div className="flex items-center">
@@ -681,7 +759,10 @@ export default function HomePage() {
                   </div>
                   <div className="ml-auto flex">
                     {[1, 2, 3, 4, 5].map((star) => (
-                      <Star key={star} className="h-5 w-5 fill-orange text-orange" />
+                      <Star
+                        key={star}
+                        className="h-5 w-5 fill-orange text-orange"
+                      />
                     ))}
                   </div>
                 </div>
@@ -782,6 +863,5 @@ export default function HomePage() {
         </div>
       </section>
     </div>
-  )
+  );
 }
-
