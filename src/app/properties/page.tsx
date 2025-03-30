@@ -94,8 +94,6 @@ export default function PropertyListing() {
     console.log("Fetched data:", result); // For debugging
     setData(result);
     setFilteredData(result);
-
-    setFilteredData(filtered);
   };
 
   return (
