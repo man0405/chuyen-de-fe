@@ -30,7 +30,6 @@ import { HouseService } from "@/utils/services/HouseService";
 export default function ProfilePage() {
   const params = useParams<{ id: string }>();
   const [agent, setAgent] = useState<Agent | null>(null);
-  const [listings, setListings] = useState<Agent[]>([]);
   const [house, setHouse] = useState<House[]>([]);
   useEffect(() => {
     async function fetchData() {
