@@ -51,7 +51,7 @@ export class SupabaseService<T extends BaseType> {
     const count = options?.include_count ? 'exact' : undefined;
 
     let query = this.supabase.from(this.table).select(
-      relationshipStrings ? `${selectFields},${relationshipStrings}` : selectFields, {count}
+      relationshipStrings ? `${selectFields},${relationshipStrings}` : selectFields, { count }
     );
 
     // Add filters
@@ -85,7 +85,7 @@ export class SupabaseService<T extends BaseType> {
     }
 
     //Add in query
-    if(options?.in){
+    if (options?.in) {
       Object.entries(options.in).forEach(([key, value]) => {
         if (value === undefined) return;
 
@@ -94,15 +94,15 @@ export class SupabaseService<T extends BaseType> {
     }
 
     //Add match
-    if(options?.match){
+    if (options?.match) {
       Object.entries(options.match).forEach(([key, value]) => {
         if (value === undefined) return;
 
         if (typeof value === 'string') {
-          query = query.match({[key]: `%${value}%`});
+          query = query.match({ [key]: `%${value}%` });
         }
         else {
-          query = query.match({[key]: value});
+          query = query.match({ [key]: value });
         }
       });
     }
@@ -153,7 +153,7 @@ export class SupabaseService<T extends BaseType> {
 
     return { data: data as unknown as T[], totalRecords: count ?? 0 };
   }
-  async findPage(page: number, pageSize: number ,request: Partial<T>): Promise<{ data: T[]; totalRecords: number }> {
+  async findPage(page: number, pageSize: number, request: Partial<T>): Promise<{ data: T[]; totalRecords: number }> {
 
     const options: QueryOptions = {
       limit: pageSize,
@@ -191,11 +191,12 @@ export class SupabaseService<T extends BaseType> {
   }
 
   async delete(id: string): Promise<{ data: T[] | null; error: PostgrestError | null }> {
-    const { data , error } = await this.supabase
+    const { data, error } = await this.supabase
       .from(this.table)
       .delete()
       .eq(this.primaryKey, id);
 
     return { data, error };
   }
+
 }
