@@ -60,7 +60,6 @@ export default function ProfilePage() {
         setHouse(houseData || []);
         const agentsData = await AgentService.getAll();
         console.log("All agents count:", agentsData?.length);
-        setListings(agentsData || []);
 
       } catch (error) {
         if (error instanceof Error) {
