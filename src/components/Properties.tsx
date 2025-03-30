@@ -20,7 +20,7 @@ export default function Properties() {
       if (!id) return;
       const data = await HouseService.findOne(id);
       setData(data);
-    } catch (error) {}
+    } catch (error) { }
   };
   useEffect(() => {
     fetchDataById();
@@ -82,9 +82,8 @@ export default function Properties() {
                   alt={`Property thumbnail ${index + 1}`}
                   width={200}
                   height={100}
-                  className={`w-full h-[100px] object-cover rounded-lg cursor-pointer ${
-                    currentImageIndex === index ? "ring-2 ring-red-500" : ""
-                  }`}
+                  className={`w-full h-[100px] object-cover rounded-lg cursor-pointer ${currentImageIndex === index ? "ring-2 ring-red-500" : ""
+                    }`}
                   onClick={() => setCurrentImageIndex(index)}
                 />
               ))}
