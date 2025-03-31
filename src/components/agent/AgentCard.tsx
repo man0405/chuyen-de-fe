@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -11,16 +11,25 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
-
+import { AgentService } from "@/utils/services/AgentService";
 type AgentCardProps = {
-	id: number;
+	id: number | string;
 	name: string;
-	description: string;
+	description?: string;
 	address: string;
 	phone: string;
 	image: string;
 };
+
 export default function AgentCard(agent: AgentCardProps) {
+	// const testApi = async () => {
+	// 	const data = AgentService.getAll();
+	
+	// }
+	
+	// useEffect(() => {
+	// 	testApi();
+	// }, []);
 	return (
 		<Card
 			key={agent.id}
