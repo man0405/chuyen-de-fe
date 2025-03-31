@@ -1,6 +1,6 @@
 import type { Agent } from "@/types/AgentType";
 import { SupabaseService } from "../services/BaseService";
-import { use } from "react";
+
 
 
 class AgentServiceClass extends SupabaseService<Agent> {
