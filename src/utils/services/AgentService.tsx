@@ -1,6 +1,8 @@
 import type { Agent } from "@/types/AgentType";
 import { SupabaseService } from "../services/BaseService";
 
+
+
 class AgentServiceClass extends SupabaseService<Agent> {
     constructor() {
         super("user", "user_id");
@@ -11,7 +13,23 @@ class AgentServiceClass extends SupabaseService<Agent> {
             .select("*"); // Select all fields instead of just user_id
 
         if (error) throw error;
-        return data as Agent[];
+        // return data as Agent[];
+
+        const agents: Agent[] = data.map(user => ({
+            user_id: user.user_id,
+        created_a: user.created_a,
+        email: user.email,
+        avatar: user.avatar,
+        location: user.location,
+        about: user.about,
+        facebook: user.facebook,
+        phone: user.phone,
+        x: user.x,
+        linkedin: user.linkedin,
+        name: user.name
+        }));
+
+        return agents;
     }
 
     async getById(id: string): Promise<Agent | null> {
