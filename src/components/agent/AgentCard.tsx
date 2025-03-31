@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { AgentService } from "@/utils/services/AgentService";
+
 type AgentCardProps = {
 	id: number | string;
 	name: string;
