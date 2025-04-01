@@ -260,32 +260,6 @@ export default function ProfilePage() {
 								</p>
 							</div>
 						)}
-
-						{/* Property Card 2 */}
-						{/* <PropertyCard
-              image="/assets/images/galary/galary-1.avif"
-              title="Foodie Restaurant"
-              description="One of the Best Restaurant"
-              address="22 Brooklyn Street New York USA"
-              phone="+84-666-888-99"
-              price="$199.00"
-              rating={5.0}
-              reviews={11}
-              badge="FEATURED"
-            /> */}
-
-						{/* Property Card 3 */}
-						{/* <PropertyCard
-              image="/assets/images/galary/galary-1.avif"
-              title="Riki Hotel in Broklyn"
-              description="Outdoor, Luxury For You"
-              address="22 Brooklyn Street New York USA"
-              phone="+84-666-888-99"
-              price="$239.00"
-              rating={4.9}
-              reviews={32}
-              badge="POPULAR"
-            /> */}
 					</div>
 
 					{/* Pagination */}
