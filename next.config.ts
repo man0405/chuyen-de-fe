@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
 	output: "standalone",
-	basePath: "", // Changed from isProd ? "/" : "" to just ""
+	basePath: "",
 	reactStrictMode: true,
 	images: {
 		unoptimized: true,
