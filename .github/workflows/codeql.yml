@@ -1,4 +1,4 @@
-name: "CodeQL Next.js"
+name: "CodeQL"
 
 on:
   push:
