@@ -13,14 +13,23 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 
 type AgentCardProps = {
-	id: number;
+	id: number | string;
 	name: string;
-	description: string;
+	description?: string;
 	address: string;
 	phone: string;
 	image: string;
 };
+
 export default function AgentCard(agent: AgentCardProps) {
+	// const testApi = async () => {
+	// 	const data = AgentService.getAll();
+	
+	// }
+	
+	// useEffect(() => {
+	// 	testApi();
+	// }, []);
 	return (
 		<Card
 			key={agent.id}
