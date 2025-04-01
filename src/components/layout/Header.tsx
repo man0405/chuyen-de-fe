@@ -3,15 +3,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import {
-	Phone,
-	Mail,
-	Facebook,
-	Twitter,
-	Instagram,
-	Sun,
-	Moon,
-} from "lucide-react";
+import { Phone, Mail } from "lucide-react";
 import { useTheme } from "next-themes";
 import imageLoader from "@/utils/imageLoader";
 import { ModeToggle } from "../ModeToggle";

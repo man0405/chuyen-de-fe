@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { MapPin, Phone, Mail, Share2, Flag } from "lucide-react";
+import { MapPin, Phone, Mail} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import imageLoader from "@/utils/imageLoader";
 import { usePathname } from "next/navigation";
