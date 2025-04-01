@@ -21,7 +21,7 @@ export default function PropertyListing() {
   const [location, setLocation] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [data, setData] = useState<House[]>([]);
-  const [filteredData, setFilteredData] = useState<House[]>([]);
+  const [filteredData, setFilteredData] = useState<any>();
   const [sortBy, setSortBy] = useState("price"); // support [price,star]
   const [sortOrder, setSortOrder] = useState("asc"); // support [asc,desc]
 
@@ -61,29 +61,26 @@ export default function PropertyListing() {
     sortBy: string,
     sortOrder: string
   ) => {
-    let filtered = [...data];
+    setLoading(true);
+    let filtered = filteredData || {
+      name: "",
+      location: "",
+    };
 
-    if (term) {
-      filtered = filtered.filter(
-        (house) =>
-          house.name.toLowerCase().includes(term.toLowerCase()) ||
-          house.description.toLowerCase().includes(term.toLowerCase()) ||
-          house.location.toLowerCase().includes(term.toLowerCase())
-      );
-    }
-
-    if (loc) {
-      filtered = filtered.filter((house) =>
-        house.location.toLowerCase().includes(loc.toLowerCase())
-      );
-    }
+    filtered.name = term.toLowerCase();
+    filtered.location = loc.toLowerCase();
 
     if (category && category !== "all") {
-      filtered = filtered.filter((house) => house.status === category);
+      filtered.status = category.toLowerCase();
+    } else {
+      filtered.status = "";
     }
-
     const result = await HouseService.find({
-      ...filtered,
+      filter: {
+        name: filtered.name,
+        location: filtered.location,
+        status: filtered.status,
+      },
       sort: [
         {
           column: sortBy,
@@ -91,9 +88,9 @@ export default function PropertyListing() {
         },
       ],
     });
-    console.log("Fetched data:", result); // For debugging
     setData(result);
-    setFilteredData(result);
+    setFilteredData(filtered);
+    setLoading(false);
   };
 
   return (
@@ -133,6 +130,13 @@ export default function PropertyListing() {
               onLocation={handleLocation}
             />
           </Suspense>
+          <PropertyListingHeader
+            count={data.length}
+            view={view}
+            onViewChange={setView}
+            onSetSortBy={handleSortBy}
+            onSetSortOrder={handleSortOrder}
+          />
 
           <div className="px-6 pb-6">
             {loading ? (
@@ -164,15 +168,7 @@ export default function PropertyListing() {
               </div>
             ) : (
               <>
-                <PropertyListingHeader
-                  count={filteredData.length}
-                  view={view}
-                  onViewChange={setView}
-                  onSetSortBy={handleSortBy}
-                  onSetSortOrder={handleSortOrder}
-                />
-
-                {filteredData.length === 0 ? (
+                {data.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-16 text-center">
                     <Search className="h-16 w-16 text-muted-foreground mb-4" />
                     <h3 className="text-xl font-semibold mb-2">
@@ -186,13 +182,13 @@ export default function PropertyListing() {
                 ) : (
                   <>
                     <div className={view === "grid" ? "block" : "hidden"}>
-                      <PropertyGrid listings={filteredData} />
+                      <PropertyGrid listings={data} />
                     </div>
                     <div className={view === "list" ? "block" : "hidden"}>
-                      <PropertyList listings={filteredData} />
+                      <PropertyList listings={data} />
                     </div>
                     <div className={view === "map" ? "block" : "hidden"}>
-                      <PropertyMap listings={filteredData} />
+                      <PropertyMap listings={data} />
                     </div>
                   </>
                 )}
