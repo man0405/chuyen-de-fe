@@ -34,6 +34,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Install dependencies
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -54,3 +55,4 @@ jobs:
         uses: github/codeql-action/analyze@v3
         with:
           category: "/language:${{ matrix.language }}"
+# Hello
