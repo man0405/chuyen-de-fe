@@ -34,6 +34,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Install dependencies
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -42,21 +43,7 @@ jobs:
       # Install dependencies
       - name: Install dependencies
         run: npm install
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "20"
 
-      # Install dependencies
-      - name: Install dependencies
-        run: npm install
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: ${{ matrix.language }}
-          build-mode: ${{ matrix.build-mode }}
-          queries: security-extended,security-and-quality
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
