@@ -16,8 +16,9 @@ class AgentServiceClass extends SupabaseService<Agent> {
         // return data as Agent[];
 
         const agents: Agent[] = data.map(user => ({
-            user_id: user.user_id,
-        created_a: user.created_a,
+        user_id: user.user_id,
+        created_at: user.created_a,
+        created_by: user.user_id,  
         email: user.email,
         avatar: user.avatar,
         location: user.location,
