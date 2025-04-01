@@ -4,6 +4,7 @@ on:
   push:
     branches: ["dev"]
   pull_request:
+  merge_group:
     branches: ["dev"]
   schedule:
     - cron: "25 3 * * 2"
