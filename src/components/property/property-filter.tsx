@@ -136,7 +136,6 @@ export function PropertyFilters({
 
   const handleSearch = () => {
     updateSearchParams({ search: searchTerm });
-    console.log("Search term:", searchTerm);
     if (onSearch) onSearch(searchTerm);
   };
 
