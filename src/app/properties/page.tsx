@@ -96,7 +96,6 @@ export default function PropertyListing() {
         },
       ],
     }) as any;
-    console.log("result", result)
     setData(result);
     setFilteredData(filtered);
     setLoading(false);
