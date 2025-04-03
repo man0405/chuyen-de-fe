@@ -4,17 +4,15 @@ import MinioService from "@/utils/services/MinioService";
 
 export async function POST(req: Request) {
   try {
-    const formData = await req.formData(); // Sử dụng formData thay vì json
+    const formData = await req.formData();
     const file = formData.get("file");
 
-    // Kiểm tra nếu file có tồn tại và là instance của Blob
     if (!(file instanceof Blob)) {
       return new NextResponse("Uploaded content is not a valid file", {
         status: 400,
       });
     }
 
-    // Kiểm tra các thuộc tính size và type
     if (typeof file.size !== "number" || typeof file.type !== "string") {
       return new NextResponse("Uploaded content is not a valid file", {
         status: 400,
@@ -22,11 +20,10 @@ export async function POST(req: Request) {
     }
 
     const fileName = nanoid(12);
-    const fileStream = file.stream(); // Đảm bảo rằng bạn xử lý đúng kiểu stream
+    const fileStream = file.stream();
     const fileSize = file.size;
     const metaData = { "Content-Type": file.type };
 
-    // Upload file lên MinIO bằng MinioService
     const uploadResult = await MinioService.uploadFile(
       fileName,
       fileStream.toString(),
