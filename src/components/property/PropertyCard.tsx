@@ -82,7 +82,7 @@ export default function PropertyCard(props: PropertyCardProps) {
         </div>
       </CardContent>
       <CardFooter className="flex justify-between items-center border-t p-4">
-        <div className="font-bold text-primary">{`${price.toFixed(2)}$`}</div>
+        <div className="font-bold text-primary">{price}$</div>
         <Button variant="default" className="bg-primary hover:bg-primary/90">
           <Link href={"/properties/" + listing.house_id}>
             Details

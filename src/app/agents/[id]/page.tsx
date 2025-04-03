@@ -249,7 +249,7 @@ export default function ProfilePage() {
                     description={property.description}
                     address={property.location}
                     phone={agent?.phone || "N/A"}
-                    price={"" + property.price}
+                    price={property.price}
                     rating={4.8}
                     reviews={32}
                     badge={

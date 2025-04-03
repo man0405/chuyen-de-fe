@@ -6,8 +6,8 @@ export interface House extends BaseType {
   name: string;
   description: string;
   user_id: string;
-  price: number;
-  old_price: number;
+  price: string;
+  old_price: string;
   build_year: string;
   sell_date: string;
   size: string;
