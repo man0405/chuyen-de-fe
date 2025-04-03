@@ -14,7 +14,6 @@ export default function PropertyCard(props: PropertyCardProps) {
   const { listing } = props;
   const { name, description, location, user, price, default_image, status, bed, bath, size } =
     listing;
-  console.log(listing)
   const defaultImage = "https://placehold.co/600x400";
   return (
     <Card className="overflow-hidden group">
