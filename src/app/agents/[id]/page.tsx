@@ -24,6 +24,7 @@ import { useParams } from "next/navigation";
 import { Agent } from "@/types/AgentType";
 import { House } from "@/types/HouseType";
 import { HouseService } from "@/utils/services/HouseService";
+import PropertyCardAgent from "@/components/property/PropertyCardAgent";
 
 export default function ProfilePage() {
   const params = useParams<{ id: string }>();
@@ -239,7 +240,7 @@ export default function ProfilePage() {
               house
                 .slice(0, 6)
                 .map((property, index) => (
-                  <PropertyCard
+                  <PropertyCardAgent
                     key={index}
                     image={
                       property.image || "/assets/images/galary/galary-1.avif"
