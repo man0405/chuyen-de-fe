@@ -32,21 +32,16 @@ class AgentServiceClass extends SupabaseService<Agent> {
 
         return agents;
     }
+    async getById(id: string): Promise<Agent | null> {
+        const { data, error } = await this.supabase
+            .from("user")
+            .select("*")
+            .eq("user_id", id)
+            .single();
 
-    //     async getById(id: string): Promise<Agent | null> {
-    //         const { data, error } = await this.supabase
-    //             .from('user')
-    //             .select('*')
-    //             .eq('user_id', id)
-    //             .single();
+        if (error) throw error;
 
-    //         if (error) {
-    //             console.error(`Error fetching user by ID:`, error.message);
-    //             return null;
-    //         }
-
-    //         return data as Agent;
-    //     }
-    // }
-
-    export const AgentService = new AgentServiceClass();
+        return data as Agent | null;
+    }
+}
+export const AgentService = new AgentServiceClass();
