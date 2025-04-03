@@ -1,3 +1,4 @@
+import { Agent } from "./AgentType";
 import { BaseType } from "./BaseType";
 
 export interface House extends BaseType {
@@ -5,8 +6,8 @@ export interface House extends BaseType {
   name: string;
   description: string;
   user_id: string;
-  price: string;
-  old_price: string;
+  price: number;
+  old_price: number;
   build_year: string;
   sell_date: string;
   size: string;
@@ -28,3 +29,9 @@ export interface HouseDetails extends BaseType {
   bath: string;
   address: string;
 }
+
+export type HouseAndUserPhone = House & { user: Pick<Agent, "phone" | "name" | "avatar"> }
+
+
+
+

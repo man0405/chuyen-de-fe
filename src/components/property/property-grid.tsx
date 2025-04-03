@@ -1,8 +1,8 @@
-import { PropertyCard } from "./property-card";
-import { House } from "@/types/HouseType";
+import PropertyCard from "./PropertyCard";
+import { House, HouseAndUserPhone } from "@/types/HouseType";
 
 export interface PropertyGridProps {
-  listings: House[];
+  listings: HouseAndUserPhone[];
 }
 
 export function PropertyGrid({ listings }: PropertyGridProps) {

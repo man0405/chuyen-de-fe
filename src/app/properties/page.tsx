@@ -8,11 +8,12 @@ import { PropertyList } from "../../components/property/property-list";
 import { PropertyMap } from "../../components/property/property-map";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Building, MapPin, Search } from "lucide-react";
-import { House } from "@/types/HouseType";
+import { House, HouseAndUserPhone } from "@/types/HouseType";
 import { HouseService } from "@/utils/services/HouseService";
 
 // View options enum
 export type ViewType = "grid" | "list" | "map";
+
 
 export default function PropertyListing() {
   const [view, setView] = useState<ViewType>("grid");
@@ -20,7 +21,7 @@ export default function PropertyListing() {
   const [searchTerm, setSearchTerm] = useState("");
   const [location, setLocation] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [data, setData] = useState<House[]>([]);
+  const [data, setData] = useState<HouseAndUserPhone[]>([]);
   const [filteredData, setFilteredData] = useState<any>();
   const [sortBy, setSortBy] = useState("price"); // support [price,star]
   const [sortOrder, setSortOrder] = useState("asc"); // support [asc,desc]
@@ -75,7 +76,7 @@ export default function PropertyListing() {
     } else {
       filtered.status = "";
     }
-    const result = await HouseService.find({
+    const result: HouseAndUserPhone[] = await HouseService.find({
       filter: {
         name: filtered.name,
         location: filtered.location,
@@ -87,7 +88,15 @@ export default function PropertyListing() {
           ascending: sortOrder === "asc",
         },
       ],
-    });
+      relationships: [
+        {
+          table: "user",
+          join_column: "user_id",
+          select: ["name", "email", "phone"],
+        },
+      ],
+    }) as any;
+    console.log("result", result)
     setData(result);
     setFilteredData(filtered);
     setLoading(false);
@@ -184,12 +193,12 @@ export default function PropertyListing() {
                     <div className={view === "grid" ? "block" : "hidden"}>
                       <PropertyGrid listings={data} />
                     </div>
-                    <div className={view === "list" ? "block" : "hidden"}>
-                      <PropertyList listings={data} />
-                    </div>
-                    <div className={view === "map" ? "block" : "hidden"}>
-                      <PropertyMap listings={data} />
-                    </div>
+                    {/* <div className={view === "list" ? "block" : "hidden"}> */}
+                    {/*   <PropertyList listings={data} /> */}
+                    {/* </div> */}
+                    {/* <div className={view === "map" ? "block" : "hidden"}> */}
+                    {/*   <PropertyMap listings={data} /> */}
+                    {/* </div> */}
                   </>
                 )}
               </>
