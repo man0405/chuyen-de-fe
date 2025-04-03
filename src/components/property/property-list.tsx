@@ -6,18 +6,15 @@ import { RatingStars } from "./rating-stars";
 import { PropertyGridProps } from "./property-grid";
 
 export function PropertyList({ listings }: PropertyGridProps) {
+  const defaultImage = "https://placehold.co/600x400";
+
   return (
     <div className="flex flex-col gap-4">
       {listings?.map((listing) => (
-        <Card key={listing.id} className="overflow-hidden">
+        <Card key={listing.house_id} className="overflow-hidden">
           <div className="flex flex-col md:flex-row">
             <div className="relative md:w-1/3">
               <div className="absolute left-4 top-4 z-10">
-                {listing.popular && (
-                  <span className="inline-block rounded bg-red-500 px-2 py-1 text-xs font-semibold uppercase text-white">
-                    Popular
-                  </span>
-                )}
               </div>
               <div className="absolute right-4 top-4 z-10">
                 <Button
@@ -29,8 +26,8 @@ export function PropertyList({ listings }: PropertyGridProps) {
                 </Button>
               </div>
               <Image
-                src={listing.image || "/placeholder.svg"}
-                alt={listing.title}
+                src={listing.image || defaultImage}
+                alt={listing.name}
                 width={500}
                 height={300}
                 className="h-48 w-full object-cover md:h-full"
@@ -40,21 +37,21 @@ export function PropertyList({ listings }: PropertyGridProps) {
             <CardContent className="flex flex-1 flex-col p-4">
               <div className="mb-2">
                 <RatingStars
-                  rating={listing.rating}
-                  reviews={listing.reviews}
+                  rating={listing.star}
+                  reviews={listing.star}
                 />
               </div>
-              <h3 className="mb-1 text-lg font-semibold">{listing.title}</h3>
+              <h3 className="mb-1 text-lg font-semibold">{listing.name}</h3>
               <p className="mb-3 text-sm text-muted-foreground">
                 {listing.description}
               </p>
               <div className="flex items-start gap-2 text-sm text-muted-foreground">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0" />
-                <span>{listing.address}</span>
+                <span>{listing.location}</span>
               </div>
               <div className="mt-2 flex items-start gap-2 text-sm text-muted-foreground">
                 <Phone className="mt-0.5 h-4 w-4 shrink-0" />
-                <span>{listing.phone}</span>
+                <span>{listing.feature}</span>
               </div>
               <div className="mt-auto flex items-center justify-between pt-4">
                 <div className="font-semibold text-primary">

@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { MapPin, Phone, Mail, Share2, Flag } from "lucide-react";
+import { MapPin, Phone, Mail} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import imageLoader from "@/utils/imageLoader";
 import { usePathname } from "next/navigation";
 import { HouseService } from "@/utils/services/HouseService";
 import { House } from "@/types/HouseType";
-
+import { Heart } from "lucide-react";
 export default function Properties() {
   const router = usePathname();
   const id = router?.split("/").pop();
@@ -59,17 +59,17 @@ export default function Properties() {
               <div className="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-4">
                 <button
                   onClick={handlePrevious}
-                  className="bg-white/80 p-2 rounded-full hover:bg-white/90 transition"
+                  className="bg-white/90 p-2 rounded-full hover:bg-white/95 transition dark:bg-white/95 dark:hover:bg-white/100"
                 >
                   <span className="sr-only">Previous</span>
-                  <div className="h-6 w-6">←</div>
+                  <div className="h-6 w-6 text-black dark:text-black">←</div>
                 </button>
                 <button
                   onClick={handleNext}
-                  className="bg-white/80 p-2 rounded-full hover:bg-white/90 transition"
+                  className="bg-white/90 p-2 rounded-full hover:bg-white/95 transition dark:bg-white/95 dark:hover:bg-white/100"
                 >
                   <span className="sr-only">Next</span>
-                  <div className="h-6 w-6">→</div>
+                  <div className="h-6 w-6 text-black dark:text-black">→</div>
                 </button>
               </div>
             </div>
@@ -82,7 +82,7 @@ export default function Properties() {
                   alt={`Property thumbnail ${index + 1}`}
                   width={200}
                   height={100}
-                  className={`w-full h-[100px] object-cover rounded-lg cursor-pointer ${currentImageIndex === index ? "ring-2 ring-red-500" : ""
+                  className={`w-full h-[100px] object-cover rounded-lg cursor-pointer ${currentImageIndex === index ? "ring-2 ring-[color:var(--primary)]" : ""
                     }`}
                   onClick={() => setCurrentImageIndex(index)}
                 />
@@ -91,7 +91,7 @@ export default function Properties() {
           </div>
 
           <div className="mt-8">
-            <div className="flex items-center gap-4 mb-6 bg-gray-100 p-4 rounded-lg">
+            <div className="flex items-center gap-4 mb-6 bg-gray-100 p-4 rounded-lg dark:bg-[var(--card)]">
               <div className="flex items-center gap-2">
                 <span className="text-yellow-400">★</span>
                 <span>4</span>
@@ -99,9 +99,14 @@ export default function Properties() {
                   (1 Review)
                 </span>
               </div>
-              <span className="bg-red-500 text-white text-sm px-2 py-1 rounded">
+              {/* <span className="bg-red-500 text-white text-sm px-2 py-1 rounded">
                 POPULAR
-              </span>
+              </span> */}
+
+              <Button variant="default" size="sm" className="hidden md:inline-flex">
+                POPULAR
+              </Button>
+
               <div className="flex items-center gap-4 text-muted-foreground">
                 <div className="flex items-center gap-2">
                   <span>•</span>
@@ -124,11 +129,11 @@ export default function Properties() {
           </div>
 
           <div className="mb-12">
-            <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
+            <h2 className="text-xl font-semibold mb-6 flex items-center gap-2 ">
               <span className="inline-block">Overview</span>
             </h2>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 bg-gray-50 p-6 rounded-lg">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 bg-gray-50 p-6 rounded-lg dark:bg-[var(--card)]">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-white rounded-lg">
                   <span className="text-primary">🏷️</span>
@@ -195,35 +200,35 @@ export default function Properties() {
             <h2 className="text-2xl font-bold mb-6">Features & Amenities</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="flex items-center gap-2 text-muted-foreground">
-                <span className="text-red-500">⭕</span>
+                <span className="text-[oklch(0.769_0.188_70.08)]">⭕</span>
                 <span>Air Conditioning</span>
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
-                <span className="text-red-500">⭕</span>
+                <span className="text-[oklch(0.769_0.188_70.08)]">⭕</span>
                 <span>Washer and dryer</span>
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
-                <span className="text-red-500">⭕</span>
+                <span className="text-[oklch(0.769_0.188_70.08)]">⭕</span>
                 <span>Swimming Pool</span>
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
-                <span className="text-red-500">⭕</span>
+                <span className="text-[oklch(0.769_0.188_70.08)]">⭕</span>
                 <span>Basketball</span>
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
-                <span className="text-red-500">⭕</span>
+                <span className="text-[oklch(0.769_0.188_70.08)]">⭕</span>
                 <span>24x7 Security</span>
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
-                <span className="text-red-500">⭕</span>
+                <span className="text-[oklch(0.769_0.188_70.08)]">⭕</span>
                 <span>Central Air</span>
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
-                <span className="text-red-500">⭕</span>
+                <span className="text-[oklch(0.769_0.188_70.08)]">⭕</span>
                 <span>Media Room</span>
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
-                <span className="text-red-500">⭕</span>
+                <span className="text-[oklch(0.769_0.188_70.08)]">⭕</span>
                 <span>Indoor Game</span>
               </div>
             </div>
@@ -242,23 +247,23 @@ export default function Properties() {
                 src="https://www.openstreetmap.org/export/embed.html?bbox=-74.0059,40.7128,-73.9973,40.7193&layer=mapnik"
                 className="absolute top-0 left-0 w-full h-full border-0"
               ></iframe>
-              <div className="absolute top-4 left-4 z-10">
+              {/* <div className="absolute top-4 left-4 z-10">
                 <button className="bg-white w-8 h-8 flex items-center justify-center rounded-sm shadow-md mb-2">
                   +
                 </button>
                 <button className="bg-white w-8 h-8 flex items-center justify-center rounded-sm shadow-md">
                   −
                 </button>
-              </div>
+              </div> */}
             </div>
 
             {/* Address and Directions */}
             <div className="flex justify-between items-center mb-8">
               <div className="flex items-center gap-2 text-muted-foreground">
-                <span className="text-red-500">📍</span>
+                <span className="text-[var(--primary)]">📍</span>
                 <span>22 Broklyn Street New York USA</span>
               </div>
-              <button className="flex items-center gap-2 text-red-500">
+              <button className="flex items-center gap-2 text-[var(--primary)]">
                 <span>Get Directions</span>
                 <span>🔜</span>
               </button>
@@ -270,41 +275,44 @@ export default function Properties() {
                 <span>🏷️</span> Tag
               </h2>
               <div className="flex flex-wrap gap-3">
-                <span className="px-4 py-2 bg-gray-100 rounded-full text-sm">
+                <span className="px-4 py-2 bg-gray-100 rounded-full text-sm dark:bg-[var(--card)]">
                   Colorful
                 </span>
-                <span className="px-4 py-2 bg-gray-100 rounded-full text-sm">
+                <span className="px-4 py-2 bg-gray-100 rounded-full text-sm dark:bg-[var(--card)]">
                   Diamond
                 </span>
-                <span className="px-4 py-2 bg-gray-100 rounded-full text-sm">
+                <span className="px-4 py-2 bg-gray-100 rounded-full text-sm dark:bg-[var(--card)]">
                   House
                 </span>
-                <span className="px-4 py-2 bg-gray-100 rounded-full text-sm">
+                <span className="px-4 py-2 bg-gray-100 rounded-full text-sm dark:bg-[var(--card)]">
                   Luxury
                 </span>
-                <span className="px-4 py-2 bg-gray-100 rounded-full text-sm">
+                <span className="px-4 py-2 bg-gray-100 rounded-full text-sm dark:bg-[var(--card)]">
                   Luxury Living
                 </span>
-                <span className="px-4 py-2 bg-gray-100 rounded-full text-sm">
+                <span className="px-4 py-2 bg-gray-100 rounded-full text-sm dark:bg-[var(--card)]">
                   Rental Property
                 </span>
               </div>
             </div>
 
             {/* Review section */}
-            <div className="mb-12 bg-gray-50 p-6 rounded-lg">
-              <div className="flex justify-between items-center mb-6">
+            <div className="mb-12 bg-gray-50 p-6 rounded-lg dark:bg-[var(--card)]">
+              <div className="flex justify-between items-center mb-6 ">
                 <h2 className="text-2xl font-bold flex items-center gap-2">
                   <span>💬</span> Review
                 </h2>
-                <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2">
+                {/* <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2">
                   <span>⭐</span> Login To Write Your Review
-                </button>
+                </button> */}
+                <Button variant="default" size="sm" className="hidden md:inline-flex">
+                  <span>⭐</span> Login To Write Your Review
+                </Button>
               </div>
 
               {/* Rating Overview */}
               <div className="flex items-center gap-4 mb-8">
-                <div className="bg-red-500 text-white text-4xl font-bold w-16 h-16 flex items-center justify-center rounded-lg">
+                <div className="bg-[var(--primary)] text-white text-4xl font-bold w-16 h-16 flex items-center justify-center rounded-lg ">
                   4
                 </div>
                 <div>
@@ -384,7 +392,7 @@ export default function Properties() {
                 ].map((listing) => (
                   <div
                     key={listing.id}
-                    className="bg-white rounded-md overflow-hidden shadow-sm"
+                    className="bg-white rounded-md overflow-hidden shadow-sm dark:bg-[var(--card)]"
                   >
                     <div className="relative">
                       <Image
@@ -395,18 +403,19 @@ export default function Properties() {
                         className="w-full h-[160px] object-cover"
                         loader={({ src }) => src}
                       />
-                      <span className="absolute top-2 left-2 bg-red-500 text-white px-2 py-0.5 text-xs rounded">
+                      <span className="absolute top-2 left-2 bg-[var(--primary)] text-black px-2 py-0.5 text-xs rounded">
                         POPULAR
                       </span>
-                      <button className="absolute top-2 right-2 p-1.5 bg-white/80 rounded-full hover:bg-white">
-                        <span className="text-sm">❤️</span>
+                      <button className="absolute top-2 right-2 p-1.5 bg-white/80 rounded-full hover:bg-white dark:bg-[var(--card)]">
+                        {/* <span className="text-sm">❤️</span> */}
+                        <Heart className="w-4 h-4 " />
                       </button>
                       <div className="absolute -bottom-3 left-3">
                         <Image
                           src="/assets/images/agents/agent-1.png"
                           alt="Agent"
-                          width={24}
-                          height={24}
+                          width={50}
+                          height={50}
                           className="rounded-full border-2 border-white"
                           loader={({ src }) => src}
                         />
@@ -451,12 +460,19 @@ export default function Properties() {
                       </div>
 
                       <div className="flex justify-between items-center">
-                        <span className="text-red-500 text-base font-bold">
+                        <span className="text-[var(--primary)] text-base font-bold">
                           {listing.price}
                         </span>
-                        <button className="bg-gray-900 text-white px-2 py-1 rounded text-xs flex items-center gap-1 hover:bg-gray-800">
+                        {/* <button className="bg-gray-900 text-white px-2 py-1 rounded text-xs flex items-center gap-1 hover:bg-gray-800">
                           <span>🏠</span> Details
-                        </button>
+                        </button> */}
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="text-xs h-8 sm:text-sm cursor-pointer"
+                        >
+                          View Details
+                        </Button>
                       </div>
                     </div>
                   </div>
@@ -554,12 +570,17 @@ export default function Properties() {
                     className="w-full p-2 border rounded-md"
                   />
                 </div>
-                <button
+                {/* <button
                   type="submit"
                   className="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-600"
                 >
                   Submit Now
-                </button>
+                </button> */}
+                <Button variant="default" size="sm" className="hidden md:inline-flex"
+                  type="submit"
+                >
+                  Submit Now
+                </Button>
               </form>
             </CardContent>
           </Card>

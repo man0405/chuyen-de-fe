@@ -1,14 +1,9 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { House } from "@/types/HouseType";
 import { MapPin } from "lucide-react";
 
 interface PropertyMapProps {
-  listings: Array<{
-    id: number;
-    title: string;
-    address: string;
-    price: string;
-    image: string;
-  }>;
+  listings: House[];
 }
 
 export function PropertyMap({ listings }: PropertyMapProps) {

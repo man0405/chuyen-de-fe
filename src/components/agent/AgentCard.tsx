@@ -13,14 +13,23 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 
 type AgentCardProps = {
-	id: number;
+	id: number | string;
 	name: string;
-	description: string;
+	description?: string;
 	address: string;
 	phone: string;
 	image: string;
 };
+
 export default function AgentCard(agent: AgentCardProps) {
+	// const testApi = async () => {
+	// 	const data = AgentService.getAll();
+
+	// }
+
+	// useEffect(() => {
+	// 	testApi();
+	// }, []);
 	return (
 		<Card
 			key={agent.id}
@@ -81,9 +90,9 @@ export default function AgentCard(agent: AgentCardProps) {
 					variant="outline"
 					className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors
                         pointer-events-auto
-                    "
+						"
 				>
-					<Link href={`/agents/${agent.id}`}>
+					<Link href={`/agents/${agent.id}`} className="w-full">
 						View All Listings
 					</Link>
 				</Button>

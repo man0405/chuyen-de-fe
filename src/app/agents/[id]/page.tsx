@@ -13,8 +13,6 @@ import {
   MapPin,
   Star,
   ChevronRight,
-  Search,
-  Plus,
   ArrowRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -44,7 +42,10 @@ export default function ProfilePage() {
 
         const agentData = await AgentService.findOne(params.id);
 
-        console.log("Raw agent data response:", JSON.stringify(agentData, null, 2));
+        console.log(
+          "Raw agent data response:",
+          JSON.stringify(agentData, null, 2)
+        );
 
         if (!agentData) {
           console.warn("No agent data returned");
@@ -200,9 +201,7 @@ export default function ProfilePage() {
               </div>
               <div className="border rounded-lg p-6">
                 <h3 className="text-lg font-bold mb-4">About</h3>
-                <p className="text-muted-foreground">
-                  {agent?.about}
-                </p>
+                <p className="text-muted-foreground">{agent?.about}</p>
               </div>
             </div>
           </div>
@@ -237,51 +236,33 @@ export default function ProfilePage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {house.length > 0 ? (
-              house.slice(0, 6).map((property, index) => (
-                <PropertyCard
-                  key={index}
-                  image={property.image || "/assets/images/galary/galary-1.avif"}
-                  title={property.name}
-                  description={property.description}
-                  address={property.location}
-                  phone={agent?.phone || "N/A"}
-                  price={property.price}
-                  rating={4.8}
-                  reviews={32}
-                  badge={index === 0 ? "NEW" : index === 1 ? "FEATURED" : "POPULAR"}
-                />
-              ))
+              house
+                .slice(0, 6)
+                .map((property, index) => (
+                  <PropertyCard
+                    key={index}
+                    image={
+                      property.image || "/assets/images/galary/galary-1.avif"
+                    }
+                    title={property.name}
+                    description={property.description}
+                    address={property.location}
+                    phone={agent?.phone || "N/A"}
+                    price={property.price}
+                    rating={4.8}
+                    reviews={32}
+                    badge={
+                      index === 0 ? "NEW" : index === 1 ? "FEATURED" : "POPULAR"
+                    }
+                  />
+                ))
             ) : (
               <div className="col-span-3 text-center py-8">
-                <p className="text-muted-foreground">No properties found for this agent</p>
+                <p className="text-muted-foreground">
+                  No properties found for this agent
+                </p>
               </div>
             )}
-
-            {/* Property Card 2 */}
-            {/* <PropertyCard
-              image="/assets/images/galary/galary-1.avif"
-              title="Foodie Restaurant"
-              description="One of the Best Restaurant"
-              address="22 Brooklyn Street New York USA"
-              phone="+84-666-888-99"
-              price="$199.00"
-              rating={5.0}
-              reviews={11}
-              badge="FEATURED"
-            /> */}
-
-            {/* Property Card 3 */}
-            {/* <PropertyCard
-              image="/assets/images/galary/galary-1.avif"
-              title="Riki Hotel in Broklyn"
-              description="Outdoor, Luxury For You"
-              address="22 Brooklyn Street New York USA"
-              phone="+84-666-888-99"
-              price="$239.00"
-              rating={4.9}
-              reviews={32}
-              badge="POPULAR"
-            /> */}
           </div>
 
           {/* Pagination */}

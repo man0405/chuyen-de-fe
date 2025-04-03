@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Play, ChevronUp } from "lucide-react";
 
@@ -9,91 +9,9 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import AgentCard from "@/components/agent/AgentCard";
-
+import { AgentService } from "@/utils/services/AgentService";
+import { Agent } from "@/types/AgentType";
 // Sample data for agents
-const agents = [
-	{
-		id: 1,
-		name: "admin",
-		image: "/placeholder.svg?height=200&width=200",
-		address: "21 Monroe Ave, Rochester NY",
-		phone: "888 555 1111",
-		description:
-			"Nullam quis ante nam sit amet orci eget eros faucibus tincidunt. Donec quam.",
-	},
-	{
-		id: 2,
-		name: "agent",
-		image: "/placeholder.svg?height=200&width=200",
-		address: "21 Monroe Ave, Rochester NY",
-		phone: "888 555 2222",
-		description:
-			"Nullam quis ante nam sit amet orci eget eros faucibus tincidunt. Donec quam.",
-	},
-	{
-		id: 3,
-		name: "ahmad",
-		image: "/placeholder.svg?height=200&width=200",
-		address: "21 Monroe Ave, Rochester NY",
-		phone: "888 555 3333",
-		description:
-			"Nullam quis ante nam sit amet orci eget eros faucibus tincidunt. Donec quam.",
-	},
-	{
-		id: 4,
-		name: "Bianca",
-		image: "/placeholder.svg?height=200&width=200",
-		address: "21 Monroe Ave, Rochester NY",
-		phone: "888 555 4444",
-		description:
-			"Nullam quis ante nam sit amet orci eget eros faucibus tincidunt. Donec quam.",
-	},
-	{
-		id: 5,
-		name: "Kathryn Murphy",
-		image: "/placeholder.svg?height=200&width=200",
-		address: "21 Monroe Ave, Rochester NY",
-		phone: "888 555 5555",
-		description:
-			"Nullam quis ante nam sit amet orci eget eros faucibus tincidunt. Donec quam.",
-	},
-	{
-		id: 6,
-		name: "Andrew Fred",
-		image: "/placeholder.svg?height=200&width=200",
-		address: "21 Monroe Ave, Rochester NY",
-		phone: "888 555 6666",
-		description:
-			"Nullam quis ante nam sit amet orci eget eros faucibus tincidunt. Donec quam.",
-	},
-	{
-		id: 7,
-		name: "jggbroiler",
-		image: "/placeholder.svg?height=200&width=200",
-		address: "21 Monroe Ave, Rochester NY",
-		phone: "888 555 7777",
-		description:
-			"Nullam quis ante nam sit amet orci eget eros faucibus tincidunt. Donec quam.",
-	},
-	{
-		id: 8,
-		name: "qweenoq",
-		image: "/placeholder.svg?height=200&width=200",
-		address: "21 Monroe Ave, Rochester NY",
-		phone: "888 555 8888",
-		description:
-			"Nullam quis ante nam sit amet orci eget eros faucibus tincidunt. Donec quam.",
-	},
-	{
-		id: 9,
-		name: "kimarh.abuasi@mail.com",
-		image: "/placeholder.svg?height=200&width=200",
-		address: "21 Monroe Ave, Rochester NY",
-		phone: "888 555 9999",
-		description:
-			"Nullam quis ante nam sit amet orci eget eros faucibus tincidunt. Donec quam.",
-	},
-];
 
 // Generate alphabet array for tabs
 const alphabet = Array.from({ length: 26 }, (_, i) =>
@@ -102,14 +20,35 @@ const alphabet = Array.from({ length: 26 }, (_, i) =>
 
 export default function AgencyDirectory() {
 	const [activeTab, setActiveTab] = useState("all");
+	const [data, setData] = useState<Agent[]>([]);
+	const testApi = async () => {
+		const test = await AgentService.getAll();
+		setData(test);
+	};
+
+	useEffect(() => {
+		testApi();
+	}, []);
+	useEffect(() => {
+		if (data && data.length > 0) {
+			console.log("First agent ID:", data[0]);
+			// Hoặc log toàn bộ data
+			// console.log("All agents:", data);
+		} // hoặc print(data);
+	}, [data]);
 
 	// Filter agents based on active tab
+	// const filteredAgents =
+	// 	activeTab === "all"
+	// 		? agents
+	// 		: agents.filter((agent) =>
+	// 			agent.name.toUpperCase().startsWith(activeTab)
+	// 		);
+
 	const filteredAgents =
 		activeTab === "all"
-			? agents
-			: agents.filter((agent) =>
-					agent.name.toUpperCase().startsWith(activeTab)
-			  );
+			? data
+			: data.filter((agent) => agent.name.toUpperCase().startsWith(activeTab));
 
 	return (
 		<div className="flex flex-col min-h-screen">
@@ -232,13 +171,13 @@ export default function AgencyDirectory() {
 							// 	</CardFooter>
 							// </Card>
 							<AgentCard
-								key={agent.id}
-								id={agent.id}
+								key={agent.user_id}
+								id={agent.user_id}
 								name={agent.name}
-								image={agent.image}
-								address={agent.address}
+								image={agent.avatar}
+								address={agent.location}
 								phone={agent.phone}
-								description={agent.description}
+								description={agent.about}
 							/>
 						))}
 					</div>
