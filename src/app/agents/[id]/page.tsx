@@ -31,6 +31,8 @@ export default function ProfilePage() {
   const params = useParams<{ id: string }>();
   const [agent, setAgent] = useState<Agent | null>(null);
   const [house, setHouse] = useState<House[]>([]);
+
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -40,7 +42,7 @@ export default function ProfilePage() {
         }
         console.log("Fetching agent with ID:", params.id);
 
-        const agentData = await AgentService.getById(params.id);
+        const agentData = await AgentService.findOne(params.id);
 
         console.log("Raw agent data response:", JSON.stringify(agentData, null, 2));
 
@@ -51,14 +53,14 @@ export default function ProfilePage() {
 
         setAgent(agentData);
         console.log("Agent state updated:", agentData);
-        // Fetch houses for the specific user
+
         const options = {
-          filter: { user_id: params.id }, // Lọc theo user_id
+          filter: { user_id: params.id }
         };
         const houseData = await HouseService.find(options);
-        console.log("House data for user:", houseData);
         setHouse(houseData || []);
-        const agentsData = await AgentService.getAll();
+
+        const agentsData = await AgentService.find();
         console.log("All agents count:", agentsData?.length);
 
       } catch (error) {
