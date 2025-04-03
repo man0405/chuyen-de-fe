@@ -1,3 +1,6 @@
-import type { House } from "@/types/HouseType";
+import type { House, HouseAndUserPhone } from "@/types/HouseType";
 import { SupabaseService } from "../services/BaseService";
-export const HouseService = new SupabaseService<House>("house", "id");
+export const HouseService = new SupabaseService<HouseAndUserPhone>(
+  "house",
+  "house_id"
+);
