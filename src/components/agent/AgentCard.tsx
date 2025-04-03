@@ -24,9 +24,9 @@ type AgentCardProps = {
 export default function AgentCard(agent: AgentCardProps) {
 	// const testApi = async () => {
 	// 	const data = AgentService.getAll();
-	
+
 	// }
-	
+
 	// useEffect(() => {
 	// 	testApi();
 	// }, []);
@@ -90,9 +90,9 @@ export default function AgentCard(agent: AgentCardProps) {
 					variant="outline"
 					className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors
                         pointer-events-auto
-                    "
+						"
 				>
-					<Link href={`/agents/${agent.id}`}>
+					<Link href={`/agents/${agent.id}`} className="w-full">
 						View All Listings
 					</Link>
 				</Button>
