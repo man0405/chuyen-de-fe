@@ -6,7 +6,7 @@ class MinioService {
   public bucketName: string = "house3d";
   constructor() {
     this.minioClient = new Client({
-      endPoint: process.env.MINIO_ENDPOINT as string,
+      endPoint: "console-minio.manportfolio.id.vn" as string,
       useSSL: true,
       accessKey: process.env.MINIO_ACCESS_KEY as string,
       secretKey: process.env.MINIO_SECRET_KEY as string,
