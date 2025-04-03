@@ -10,7 +10,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Building, MapPin, Search } from "lucide-react";
 import { House } from "@/types/HouseType";
 import { HouseService } from "@/utils/services/HouseService";
-
+import PaginationComponent from "@/components/pagination/pagination";
+import { Readable } from "stream";
 // View options enum
 export type ViewType = "grid" | "list" | "map";
 
@@ -24,34 +25,79 @@ export default function PropertyListing() {
   const [filteredData, setFilteredData] = useState<any>();
   const [sortBy, setSortBy] = useState("price"); // support [price,star]
   const [sortOrder, setSortOrder] = useState("asc"); // support [asc,desc]
-
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(12);
+  const [totalRecords, setTotalRecords] = useState<number>(0);
   useEffect(() => {
-    filterData(searchTerm, selectedCategory, location, sortBy, sortOrder);
-  }, [searchTerm, location, selectedCategory, sortBy, sortOrder]);
+    filterData(
+      searchTerm,
+      selectedCategory,
+      location,
+      sortBy,
+      sortOrder,
+      currentPage
+    );
+  }, [
+    searchTerm,
+    location,
+    selectedCategory,
+    sortBy,
+    sortOrder,
+    pageSize,
+    currentPage,
+  ]);
 
   // Handle search and filtering
   const handleSearch = (term: string) => {
     setSearchTerm(term);
-    filterData(term, selectedCategory, location, sortBy, sortOrder);
+    filterData(
+      term,
+      selectedCategory,
+      location,
+      sortBy,
+      sortOrder,
+      currentPage
+    );
   };
 
   const handleLocation = (loc: string) => {
     setLocation(loc);
-    filterData(searchTerm, selectedCategory, loc, sortBy, sortOrder);
+    filterData(
+      searchTerm,
+      selectedCategory,
+      loc,
+      sortBy,
+      sortOrder,
+      currentPage
+    );
   };
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
-    filterData(searchTerm, category, location, sortBy, sortOrder);
+    filterData(searchTerm, category, location, sortBy, sortOrder, currentPage);
   };
 
   const handleSortBy = (sortBy: string) => {
     setSortBy(sortBy);
-    filterData(searchTerm, selectedCategory, location, sortBy, sortOrder);
+    filterData(
+      searchTerm,
+      selectedCategory,
+      location,
+      sortBy,
+      sortOrder,
+      currentPage
+    );
   };
   const handleSortOrder = (sortOrder: string) => {
     setSortOrder(sortOrder);
-    filterData(searchTerm, selectedCategory, location, sortBy, sortOrder);
+    filterData(
+      searchTerm,
+      selectedCategory,
+      location,
+      sortBy,
+      sortOrder,
+      currentPage
+    );
   };
 
   const filterData = async (
@@ -59,7 +105,8 @@ export default function PropertyListing() {
     category: string,
     loc: string,
     sortBy: string,
-    sortOrder: string
+    sortOrder: string,
+    currentPage: number
   ) => {
     setLoading(true);
     let filtered = filteredData || {
@@ -75,7 +122,10 @@ export default function PropertyListing() {
     } else {
       filtered.status = "";
     }
-    const result = await HouseService.find({
+
+    const { data, totalRecords } = await HouseService.findPageCustomize({
+      limit: pageSize,
+      offset: (currentPage - 1) * pageSize,
       filter: {
         name: filtered.name,
         location: filtered.location,
@@ -88,9 +138,20 @@ export default function PropertyListing() {
         },
       ],
     });
-    setData(result);
+    setData(data);
+    setTotalRecords(totalRecords);
     setFilteredData(filtered);
     setLoading(false);
+  };
+  const handlePageChange = (pageNum: number) => {
+    filterData(
+      searchTerm,
+      selectedCategory,
+      location,
+      sortBy,
+      sortOrder,
+      pageNum
+    );
   };
 
   return (
@@ -120,7 +181,6 @@ export default function PropertyListing() {
           </div>
         </div>
       </div>
-
       <div className="container mx-auto px-4 py-8">
         <div className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 transform hover:shadow-xl">
           <Suspense fallback={<div className="p-4">Loading filters...</div>}>
@@ -190,6 +250,13 @@ export default function PropertyListing() {
                     <div className={view === "map" ? "block" : "hidden"}>
                       <PropertyMap listings={data} />
                     </div>
+                    <PaginationComponent
+                      totalRecords={totalRecords}
+                      pageSize={pageSize}
+                      currentPage={currentPage}
+                      setCurrentPage={setCurrentPage}
+                      onPageChange={handlePageChange}
+                    ></PaginationComponent>
                   </>
                 )}
               </>
