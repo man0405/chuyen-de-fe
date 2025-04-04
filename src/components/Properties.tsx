@@ -1,94 +1,83 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { MapPin, Phone, Mail} from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import imageLoader from "@/utils/imageLoader";
-import { usePathname } from "next/navigation";
-import { HouseService } from "@/utils/services/HouseService";
-import { House } from "@/types/HouseType";
-import { Heart } from "lucide-react";
+import { useEffect, useState } from 'react'
+import Image from 'next/image'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { MapPin, Phone, Mail } from 'lucide-react'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import imageLoader from '@/utils/imageLoader'
+import { usePathname } from 'next/navigation'
+import { HouseService } from '@/utils/services/HouseService'
+import { ImageService } from '@/utils/services/ImageService'
+import { House } from '@/types/HouseType'
+import { Heart } from 'lucide-react'
+import { fetchPresignedUrl } from '@/utils/helper'
+import Autoplay from 'embla-carousel-autoplay'
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel'
+
+import React from 'react'
+import EmblaCarousel from './EmblaCarousel/EmblaCarousel'
 export default function Properties() {
-  const router = usePathname();
-  const id = router?.split("/").pop();
-  const [data, setData] = useState<House>();
+  const router = usePathname()
+  const id = router?.split('/').pop()
+  const [data, setData] = useState<House>()
+  const [images, setImages] = useState<string[]>([])
   const fetchDataById = async () => {
     try {
-      if (!id) return;
-      const data = await HouseService.findOne(id);
-      setData(data);
-    } catch (error) { }
-  };
+      if (!id) return
+      const data = await HouseService.findOne(id)
+      if (!data) return
+      const images = await ImageService.find({
+        filter: {
+          house_id: id,
+        },
+      })
+      if (!images) return
+      const imagePresignedUrls = await Promise.all(
+        images.map(async (item) => {
+          let imageUrl = item.local
+          if (imageUrl) {
+            const presignedUrl = await fetchPresignedUrl(imageUrl)
+            return presignedUrl
+          } else {
+            // Return item with default image
+            return [
+              '/assets/images/galary/galary-1.avif',
+              '/assets/images/galary/galary-2.avif',
+              '/assets/images/galary/galary-3.avif',
+              '/assets/images/galary/galary-4.avif',
+            ]
+          }
+        })
+      )
+      setData(data)
+      setImages(imagePresignedUrls)
+    } catch (error) {}
+  }
   useEffect(() => {
-    fetchDataById();
-  }, [id]);
+    fetchDataById()
+  }, [id])
 
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const images = [
-    "/assets/images/galary/galary-1.avif",
-    "/assets/images/galary/galary-2.avif",
-    "/assets/images/galary/galary-3.avif",
-    "/assets/images/galary/galary-4.avif",
-  ];
-
-  const handlePrevious = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
-  };
-
-  const handleNext = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % images.length);
-  };
-
+  console.log(data)
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Content */}
         <div className="lg:col-span-2">
-          <div className="relative">
-            <div className="relative w-full h-[400px] mb-4">
-              <Image
-                src={images[currentImageIndex]}
-                alt="Property"
-                loader={imageLoader}
-                fill
-                className="object-cover rounded-lg"
-              />
-              <div className="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-4">
-                <button
-                  onClick={handlePrevious}
-                  className="bg-white/90 p-2 rounded-full hover:bg-white/95 transition dark:bg-white/95 dark:hover:bg-white/100"
-                >
-                  <span className="sr-only">Previous</span>
-                  <div className="h-6 w-6 text-black dark:text-black">←</div>
-                </button>
-                <button
-                  onClick={handleNext}
-                  className="bg-white/90 p-2 rounded-full hover:bg-white/95 transition dark:bg-white/95 dark:hover:bg-white/100"
-                >
-                  <span className="sr-only">Next</span>
-                  <div className="h-6 w-6 text-black dark:text-black">→</div>
-                </button>
-              </div>
-            </div>
-            <div className="grid grid-cols-4 gap-4">
-              {images.map((image, index) => (
-                <Image
-                  key={index}
-                  src={image}
-                  loader={imageLoader}
-                  alt={`Property thumbnail ${index + 1}`}
-                  width={200}
-                  height={100}
-                  className={`w-full h-[100px] object-cover rounded-lg cursor-pointer ${currentImageIndex === index ? "ring-2 ring-[color:var(--primary)]" : ""
-                    }`}
-                  onClick={() => setCurrentImageIndex(index)}
-                />
-              ))}
-            </div>
-          </div>
+          <EmblaCarousel
+            options={{ loop: true, slidesToScroll: 1 }}
+            slides={images.map((image) => ({
+              src: image,
+              alt: 'Property',
+            }))}
+          />
 
           <div className="mt-8">
             <div className="flex items-center gap-4 mb-6 bg-gray-100 p-4 rounded-lg dark:bg-[var(--card)]">
@@ -103,18 +92,18 @@ export default function Properties() {
                 POPULAR
               </span> */}
 
-              <Button variant="default" size="sm" className="hidden md:inline-flex">
+              <Button
+                variant="default"
+                size="sm"
+                className="hidden md:inline-flex"
+              >
                 POPULAR
               </Button>
 
               <div className="flex items-center gap-4 text-muted-foreground">
                 <div className="flex items-center gap-2">
                   <span>•</span>
-                  <span>Place</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span>•</span>
-                  <span>Melbourne</span>
+                  <span>{data?.location}</span>
                 </div>
               </div>
             </div>
@@ -140,7 +129,9 @@ export default function Properties() {
                 </div>
                 <div>
                   <p className="text-sm font-medium">Number ID</p>
-                  <p className="text-muted-foreground">#1668</p>
+                  <p className="text-muted-foreground">
+                    {data?.house_id.slice(0, 8)}
+                  </p>
                 </div>
               </div>
 
@@ -150,7 +141,7 @@ export default function Properties() {
                 </div>
                 <div>
                   <p className="text-sm font-medium">Type</p>
-                  <p className="text-muted-foreground">Salon, Luxury</p>
+                  <p className="text-muted-foreground">{data?.features}</p>
                 </div>
               </div>
 
@@ -236,6 +227,40 @@ export default function Properties() {
 
           <div className="mb-12">
             <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+              <span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  className="lucide lucide-box-icon lucide-box text-primary"
+                >
+                  <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+                  <path d="m3.3 7 8.7 5 8.7-5" />
+                  <path d="M12 22V12" />
+                </svg>
+              </span>
+              360 House
+            </h2>
+
+            {/* Map container */}
+            <div className="relative w-full h-[600px] rounded-lg overflow-hidden mb-4">
+              <iframe
+                width="100%"
+                height="100%"
+                src="https://my.matterport.com/show?play=1&lang=en-US&m=9LvXrY4P2q2"
+                className="absolute top-0 left-0 w-full h-full border-0"
+              ></iframe>
+            </div>
+          </div>
+
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
               <span>📍</span> Location
             </h2>
 
@@ -247,21 +272,13 @@ export default function Properties() {
                 src="https://www.openstreetmap.org/export/embed.html?bbox=-74.0059,40.7128,-73.9973,40.7193&layer=mapnik"
                 className="absolute top-0 left-0 w-full h-full border-0"
               ></iframe>
-              {/* <div className="absolute top-4 left-4 z-10">
-                <button className="bg-white w-8 h-8 flex items-center justify-center rounded-sm shadow-md mb-2">
-                  +
-                </button>
-                <button className="bg-white w-8 h-8 flex items-center justify-center rounded-sm shadow-md">
-                  −
-                </button>
-              </div> */}
             </div>
 
             {/* Address and Directions */}
             <div className="flex justify-between items-center mb-8">
               <div className="flex items-center gap-2 text-muted-foreground">
                 <span className="text-[var(--primary)]">📍</span>
-                <span>22 Broklyn Street New York USA</span>
+                <span>{data?.location}</span>
               </div>
               <button className="flex items-center gap-2 text-[var(--primary)]">
                 <span>Get Directions</span>
@@ -305,7 +322,11 @@ export default function Properties() {
                 {/* <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2">
                   <span>⭐</span> Login To Write Your Review
                 </button> */}
-                <Button variant="default" size="sm" className="hidden md:inline-flex">
+                <Button
+                  variant="default"
+                  size="sm"
+                  className="hidden md:inline-flex"
+                >
                   <span>⭐</span> Login To Write Your Review
                 </Button>
               </div>
@@ -369,25 +390,25 @@ export default function Properties() {
                 {[
                   {
                     id: 1,
-                    image: "/assets/images/product/image1.png",
-                    title: "The Pastry Corner",
+                    image: '/assets/images/product/image1.png',
+                    title: 'The Pastry Corner',
                     rating: 3.0,
                     reviews: 1,
-                    description: "Outdoor, luxury for you",
-                    address: "22 Broklyn Street New York USA",
-                    phone: "+84-666-888-99",
-                    price: "$319.00",
+                    description: 'Outdoor, luxury for you',
+                    address: '22 Broklyn Street New York USA',
+                    phone: '+84-666-888-99',
+                    price: '$319.00',
                   },
                   {
                     id: 2,
-                    image: "/assets/images/product/image2.png",
-                    title: "Riki Hotel in Broklyn",
+                    image: '/assets/images/product/image2.png',
+                    title: 'Riki Hotel in Broklyn',
                     rating: 4.0,
                     reviews: 1,
-                    description: "Outdoor, luxury for you",
-                    address: "22 Broklyn Street New York USA",
-                    phone: "+84-666-888-99",
-                    price: "$239.00",
+                    description: 'Outdoor, luxury for you',
+                    address: '22 Broklyn Street New York USA',
+                    phone: '+84-666-888-99',
+                    price: '$239.00',
                   },
                 ].map((listing) => (
                   <div
@@ -429,7 +450,7 @@ export default function Properties() {
                             <span
                               key={i}
                               className={
-                                i < listing.rating ? "" : "text-gray-300"
+                                i < listing.rating ? '' : 'text-gray-300'
                               }
                             >
                               ⭐
@@ -526,9 +547,7 @@ export default function Properties() {
               <div className="space-y-4">
                 <div>
                   <label className="text-sm font-medium">Address</label>
-                  <p className="text-muted-foreground">
-                    22 Broklyn Street New York USA
-                  </p>
+                  <p className="text-muted-foreground">{data?.location}</p>
                 </div>
                 <div>
                   <label className="text-sm font-medium">Phone</label>
@@ -536,7 +555,9 @@ export default function Properties() {
                 </div>
                 <div>
                   <label className="text-sm font-medium">Email</label>
-                  <p className="text-muted-foreground">contact@example.com</p>
+                  <p className="text-muted-foreground">
+                    contact@manportfolio.id.vn
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -576,7 +597,10 @@ export default function Properties() {
                 >
                   Submit Now
                 </button> */}
-                <Button variant="default" size="sm" className="hidden md:inline-flex"
+                <Button
+                  variant="default"
+                  size="sm"
+                  className="hidden md:inline-flex"
                   type="submit"
                 >
                   Submit Now
@@ -587,5 +611,5 @@ export default function Properties() {
         </div>
       </div>
     </div>
-  );
+  )
 }
