@@ -60,7 +60,7 @@ const MinioTestPage = () => {
   };
 
   // Gọi hàm với tên file
-  fetchPresignedUrl("FLRK1oCZ2sGv");
+  fetchPresignedUrl("ceo.jpeg");
   return (
     <div className="p-6 bg-gray-100 min-h-screen flex flex-col items-center">
       <h2 className="text-xl font-bold mb-4">Minio File Upload Test</h2>
@@ -99,8 +99,13 @@ const MinioTestPage = () => {
             Upload
           </button>
         </div>
+        <div className="w-1/2">
+          <img
+            src="https://console-minio.manportfolio.id.vn/house3d/ceo.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=W9IroZ56GWAl5zAWcHv3%2F20250404%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250404T022000Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=4aa4cf98095aedaddbedf85c031c5bd7b49fb5173ec5688ffe1c0fa53dcdd397"
+            alt=""
+          />
+        </div>
       </form>
-
       <div className="mt-4">
         {status && <p className="text-gray-700">Status: {status}</p>}
       </div>
