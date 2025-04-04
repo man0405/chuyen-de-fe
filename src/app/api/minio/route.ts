@@ -19,7 +19,7 @@ export async function POST(req: Request) {
       });
     }
 
-    const fileName = nanoid(12);
+    const fileName = file.name;
     const fileStream = file.stream();
     const fileSize = file.size;
     const metaData = { "Content-Type": file.type };
