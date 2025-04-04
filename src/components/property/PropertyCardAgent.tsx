@@ -1,20 +1,20 @@
-import { Star, MapPin, Phone } from "lucide-react";
-import { Button } from "../ui/button";
-import { Card, CardContent, CardFooter } from "../ui/card";
-import Image from "next/image";
-import { Badge } from "../ui/badge";
+import { Star, MapPin, Phone } from 'lucide-react'
+import { Button } from '../ui/button'
+import { Card, CardContent, CardFooter } from '../ui/card'
+import Image from 'next/image'
+import { Badge } from '../ui/badge'
 
 interface PropertyCardProps {
-  image: string;
-  title: string;
+  image: string
+  title: string
 
-  description: string;
-  address: string;
-  phone: string;
-  price: string;
-  rating: number;
-  reviews: number;
-  badge: string;
+  description?: string
+  address?: string
+  phone?: string
+  price?: string
+  rating: number
+  reviews: number
+  badge: string
 }
 
 export default function PropertyCardAgent({
@@ -32,7 +32,7 @@ export default function PropertyCardAgent({
     <Card className="overflow-hidden group">
       <div className="relative">
         <Image
-          src={image || "/placeholder.svg"}
+          src={image || '/placeholder.svg'}
           alt={title}
           width={400}
           height={300}
@@ -40,7 +40,7 @@ export default function PropertyCardAgent({
           className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
         />
         <Badge
-          variant={"default"}
+          variant={'default'}
           className="absolute top-3 left-3 bg-primary text-white"
         >
           {badge}
@@ -86,5 +86,5 @@ export default function PropertyCardAgent({
         </Button>
       </CardFooter>
     </Card>
-  );
+  )
 }
