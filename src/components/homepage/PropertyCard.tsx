@@ -3,16 +3,19 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Bed, Bath, SquareIcon, MapPin, Heart } from "lucide-react";
 import Link from "next/link";
+import MinioService from "@/utils/services/MinioService";
+import { useState } from "react";
 
 interface PropertyCardProps {
 	id: string;
 	title: string;
-	location: string;
-	price: string;
+	location?: string;
+	price?: string;
 	beds: number;
 	baths: number;
-	sqft: number;
+	sqft?: number | string;
 	image: string;
+	status?: string;
 }
 export default function PropertyCard({
 	id,
@@ -22,6 +25,7 @@ export default function PropertyCard({
 	beds,
 	baths,
 	sqft,
+	status,
 	image,
 }: PropertyCardProps) {
 	return (
@@ -38,14 +42,14 @@ export default function PropertyCard({
 				<div className="absolute top-3 right-3">
 					<Button
 						variant={"outline"}
-						className="   rounded-full  transition-colors"
+						className="  rounded-full p-2 transition-colors"
 					>
 						<Heart />
 					</Button>
 				</div>
 				<div className="absolute bottom-4 left-4  shadow-2xl border rounded-full bg-secondary border-white">
 					<span className="p-3 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-xs sm:text-sm">
-						For Sale
+						For {status}
 					</span>
 				</div>
 			</div>
@@ -56,7 +60,7 @@ export default function PropertyCard({
 				</h3>
 				<div className="flex items-center text-muted-foreground mb-2 sm:mb-3">
 					<MapPin className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
-					<span className="text-xs sm:text-sm">{location}</span>
+					<span className="text-xs sm:text-sm line-clamp-1">{location}</span>
 				</div>
 
 				<div className="flex justify-between items-center mb-3 sm:mb-4">
@@ -71,7 +75,7 @@ export default function PropertyCard({
 						</div>
 						<div className="flex items-center">
 							<SquareIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1 text-muted-foreground" />
-							<span className="text-xs sm:text-sm">{sqft} sqft</span>
+							<span className="text-xs sm:text-sm">{sqft} </span>
 						</div>
 					</div>
 				</div>

@@ -1,12 +1,12 @@
-"use client";
-import NewsCard from "@/components/homepage/NewsCard";
-import PropertyCard from "@/components/homepage/PropertyCard";
-import StatsCounter from "@/components/homepage/StatsCounters";
-import TeamMember from "@/components/homepage/TeamMember";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+'use client'
+import NewsCard from '@/components/homepage/NewsCard'
+import PropertyCard from '@/components/homepage/PropertyCard'
+import StatsCounter from '@/components/homepage/StatsCounters'
+import TeamMember from '@/components/homepage/TeamMember'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
   Home,
   Search,
@@ -18,196 +18,90 @@ import {
   MessageSquare,
   ChevronRight,
   Star,
-  Heart,
-  Phone,
   DollarSign,
-} from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { House as HouseType } from "@/types/HouseType";
-import { HouseService } from "@/utils/services/HouseService";
-
-// Sample data for listings
-const listings = [
-  {
-    id: 1,
-    title: "Beauty Hairsalon",
-    description: "Modern Hair Style Salon",
-    rating: 4.0,
-    reviews: 1,
-    address: "22 Broklyn Street New York USA",
-    phone: "+84-666-888-99",
-    price: "EUR€199.00",
-    image:
-      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=3542&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Hair salon
-    popular: true,
-  },
-  {
-    id: 2,
-    title: "Foodie Restaurant",
-    description: "One of the best Restaurant",
-    rating: 5.0,
-    reviews: 1,
-    address: "22 Broklyn Street New York USA",
-    phone: "+84-666-888-99",
-    price: "EUR€199.00",
-    image:
-      "https://images.unsplash.com/photo-1523217582562-09d0def993a6?q=80&w=3024&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Restaurant
-    popular: true,
-  },
-  {
-    id: 3,
-    title: "Riki Hotel in Broklyn",
-    description: "Outdoor, luxury for you",
-    rating: 4.0,
-    reviews: 1,
-    address: "22 Broklyn Street New York USA",
-    phone: "+84-666-888-99",
-    price: "EUR€239.00",
-    image:
-      "https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Hotel
-    popular: true,
-  },
-  {
-    id: 4,
-    title: "Silver Rose Store",
-    description: "Outdoor, luxury for you",
-    rating: 5.0,
-    reviews: 1,
-    address: "22 Broklyn Street New York USA",
-    phone: "+84-666-888-99",
-    price: "EUR€189.00",
-    image:
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Store
-    popular: true,
-  },
-  {
-    id: 5,
-    title: "Novotel London Canary",
-    description: "Outdoor, luxury for you",
-    rating: 4.0,
-    reviews: 1,
-    address: "22 Broklyn Street New York USA",
-    phone: "+84-666-888-99",
-    price: "EUR€169.00",
-    image:
-      "https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?q=80&w=3548&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Hotel
-    popular: true,
-  },
-  {
-    id: 6,
-    title: "The Pastry Corner",
-    description: "Outdoor, luxury for you",
-    rating: 3.0,
-    reviews: 1,
-    address: "22 Broklyn Street New York USA",
-    phone: "+84-666-888-99",
-    price: "EUR€319.00",
-    image:
-      "https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Bakery
-    popular: true,
-  },
-];
+} from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import { House as HouseType } from '@/types/HouseType'
+import { HouseService } from '@/utils/services/HouseService'
+import { fetchPresignedUrl } from '@/utils/helper'
 
 // Listing Card Component
-const ListingCard = ({ listing, onFavorite }: any) => {
-  const [isFavorite, setIsFavorite] = useState(false);
-
-  const handleFavoriteClick = () => {
-    setIsFavorite(!isFavorite);
-    if (onFavorite) onFavorite(listing.id);
-  };
-
-  return (
-    <Link href={"/properties/" + listing.id}>
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all hover:shadow-lg">
-        <div className="relative">
-          <Image
-            src={listing.image || "/placeholder.svg"}
-            alt={listing.title}
-            width={400}
-            height={250}
-            className="w-full h-48 object-cover"
-            loader={({ src }) => src}
-          />
-          <button
-            onClick={handleFavoriteClick}
-            className="absolute top-3 right-3 p-2 bg-white/80 dark:bg-gray-800/80 rounded-full shadow-sm hover:bg-white dark:hover:bg-gray-700 transition-colors"
-          >
-            <Heart
-              className={`h-5 w-5 ${isFavorite ? "fill-red-500 text-red-500" : "text-gray-500"
-                }`}
-            />
-          </button>
-        </div>
-        <div className="p-4">
-          <div className="flex justify-between items-start mb-2">
-            <h3 className="font-bold text-lg line-clamp-1">{listing.title}</h3>
-            <div className="flex items-center">
-              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 mr-1" />
-              <span className="text-sm font-medium">
-                {listing.rating.toFixed(1)}
-              </span>
-            </div>
-          </div>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 line-clamp-2">
-            {listing.description}
-          </p>
-          <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
-            <MapPin className="h-4 w-4 mr-1 flex-shrink-0" />
-            <span className="truncate">{listing.address}</span>
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center text-sm">
-              <Phone className="h-4 w-4 mr-1 text-gray-500 dark:text-gray-400" />
-              <span className="text-gray-500 dark:text-gray-400">
-                {listing.phone}
-              </span>
-            </div>
-            <div className="font-bold text-primary">{listing.price}</div>
-          </div>
-        </div>
-      </div>
-    </Link>
-  );
-};
 
 export default function HomePage() {
-  const [activeTab, setActiveTab] = useState("buy");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filteredListings, setFilteredListings] = useState(listings);
+  const [activeTab, setActiveTab] = useState('buy')
+  const [searchQuery, setSearchQuery] = useState<{
+    title: string
+    category: string
+    price: string
+  }>({
+    title: '',
+    category: '',
+    price: '',
+  }) // Initialize with an empty object
 
-  const [houseData, setHouseData] = useState<HouseType[]>([]);
+  const searchParams = new URLSearchParams()
+
+  const [houseData, setHouseData] = useState<HouseType[]>([])
 
   const fetchHouseData = async () => {
     try {
-      const data = await HouseService.find();
-      setHouseData(data);
+      const data = await HouseService.find({
+        limit: 3,
+      })
+      if (!data) {
+        throw new Error('No data found')
+      }
+
+      console.log('Full data object:', data)
+      // Transform the data if necessary
+      const imagePresignedUrls = await Promise.all(
+        data.map(async (item) => {
+          console.log('Individual item:', item)
+
+          let imageUrl = item.default_image
+          if (imageUrl) {
+            const presignedUrl = await fetchPresignedUrl(imageUrl)
+            return {
+              ...item,
+              image: presignedUrl,
+            }
+          } else {
+            // Return item with default image
+            return {
+              ...item,
+              image: '/assets/images/galary/galary-1.avif', // Default image
+            }
+          }
+        })
+      )
+      // Set the transformed data to state
+      setHouseData(imagePresignedUrls)
+    } catch (error) {
+      console.error('Error fetching house data:', error)
     } finally {
-      console.log("House data fetched successfully");
+      console.log('House data fetched successfully')
     }
-  };
+  }
 
   useEffect(() => {
-    fetchHouseData();
-  }, []);
+    fetchHouseData()
+  }, [])
 
   const handleSearch = (e: any) => {
-    e.preventDefault();
-    const filtered = listings.filter(
-      (listing) =>
-        listing.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        listing.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        listing.address.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredListings(filtered);
-  };
+    e.preventDefault()
+    searchParams.set('search', searchQuery.title.toLocaleLowerCase())
+    searchParams.set('category', searchQuery.category.toLocaleLowerCase())
+    searchParams.set('price', searchQuery.price)
+    const queryString = searchParams.toString()
+    window.location.href = `/properties?${queryString}`
+  }
 
   const handleFavorite = (id: string) => {
-    console.log(`Toggled favorite for listing ${id}`);
+    console.log(`Toggled favorite for listing ${id}`)
     // Here you would typically update a favorites list in state or backend
-  };
+  }
 
   return (
     <div className="min-h-screen flex flex-col mx-auto ">
@@ -224,10 +118,10 @@ export default function HomePage() {
             </p>
             <div className="flex flex-wrap gap-3 md:gap-4">
               <Button className=" text-sm md:text-base">
-                <Link href={"/properties"}>Get Started</Link>
+                <Link href={'/properties'}>Get Started</Link>
               </Button>
               <Button variant="outline" className="p-0 m-0">
-                <Link href={"/about"} className="text-sm md:text-base p-3">
+                <Link href={'/about'} className="text-sm md:text-base p-3">
                   Learn More
                 </Link>
               </Button>
@@ -315,8 +209,13 @@ export default function HomePage() {
                           <Input
                             className="pl-10 text-sm bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600"
                             placeholder="Search by name, type, location..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
+                            value={searchQuery.title}
+                            onChange={(e) =>
+                              setSearchQuery({
+                                ...searchQuery,
+                                title: e.target.value,
+                              })
+                            }
                           />
                         </div>
                       </div>
@@ -326,7 +225,16 @@ export default function HomePage() {
                         </label>
                         <div className="relative">
                           <Building className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
-                          <select className="w-full h-10 pl-10 pr-4 rounded-md border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-sm">
+                          <select
+                            className="w-full h-10 pl-10 pr-4 rounded-md border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-sm"
+                            value={searchQuery.category}
+                            onChange={(e) =>
+                              setSearchQuery({
+                                ...searchQuery,
+                                category: e.target.value,
+                              })
+                            }
+                          >
                             <option>Any Type</option>
                             <option>House</option>
                             <option>Apartment</option>
@@ -343,11 +251,18 @@ export default function HomePage() {
                         </label>
                         <div className="relative">
                           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-                            €
+                            đ
                           </span>
                           <Input
-                            className="pl-10 text-sm bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600"
+                            className="pl-8 text-sm bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600"
                             placeholder="Max Price"
+                            value={searchQuery.price}
+                            onChange={(e) =>
+                              setSearchQuery({
+                                ...searchQuery,
+                                price: e.target.value,
+                              })
+                            }
                           />
                         </div>
                       </div>
@@ -360,34 +275,6 @@ export default function HomePage() {
                       Search Properties
                     </Button>
                   </form>
-
-                  {/* Search Results */}
-                  <div className="mt-8">
-                    <div className="flex justify-between items-center mb-4">
-                      <h3 className="text-lg font-bold">
-                        {filteredListings.length} Properties Found
-                      </h3>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm text-gray-500">Sort by:</span>
-                        <select className="text-sm border rounded-md p-1 bg-transparent">
-                          <option>Newest</option>
-                          <option>Price: Low to High</option>
-                          <option>Price: High to Low</option>
-                          <option>Rating</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {filteredListings.map((listing) => (
-                        <ListingCard
-                          key={listing.id}
-                          listing={listing}
-                          onFavorite={handleFavorite}
-                        />
-                      ))}
-                    </div>
-                  </div>
                 </TabsContent>
 
                 <TabsContent value="rent" className="space-y-6">
@@ -402,8 +289,13 @@ export default function HomePage() {
                           <Input
                             className="pl-10 text-sm bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600"
                             placeholder="Search by name, type, location..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
+                            value={searchQuery.title}
+                            onChange={(e) =>
+                              setSearchQuery({
+                                ...searchQuery,
+                                title: e.target.value,
+                              })
+                            }
                           />
                         </div>
                       </div>
@@ -413,7 +305,16 @@ export default function HomePage() {
                         </label>
                         <div className="relative">
                           <Building className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
-                          <select className="w-full h-10 pl-10 pr-4 rounded-md border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-sm">
+                          <select
+                            className="w-full h-10 pl-10 pr-4 rounded-md border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-sm"
+                            value={searchQuery.category}
+                            onChange={(e) =>
+                              setSearchQuery({
+                                ...searchQuery,
+                                category: e.target.value,
+                              })
+                            }
+                          >
                             <option>Any Type</option>
                             <option>House</option>
                             <option>Apartment</option>
@@ -435,6 +336,13 @@ export default function HomePage() {
                           <Input
                             className="pl-10 text-sm bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600"
                             placeholder="Max Rent"
+                            value={searchQuery.price}
+                            onChange={(e) =>
+                              setSearchQuery({
+                                ...searchQuery,
+                                price: e.target.value,
+                              })
+                            }
                           />
                         </div>
                       </div>
@@ -447,34 +355,6 @@ export default function HomePage() {
                       Find Rentals
                     </Button>
                   </form>
-
-                  {/* Search Results */}
-                  <div className="mt-8">
-                    <div className="flex justify-between items-center mb-4">
-                      <h3 className="text-lg font-bold">
-                        {filteredListings.length} Properties Found
-                      </h3>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm text-gray-500">Sort by:</span>
-                        <select className="text-sm border rounded-md p-1 bg-transparent">
-                          <option>Newest</option>
-                          <option>Price: Low to High</option>
-                          <option>Price: High to Low</option>
-                          <option>Rating</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {filteredListings.map((listing) => (
-                        <ListingCard
-                          key={listing.id}
-                          listing={listing}
-                          onFavorite={handleFavorite}
-                        />
-                      ))}
-                    </div>
-                  </div>
                 </TabsContent>
 
                 <TabsContent value="sell" className="space-y-6">
@@ -545,7 +425,7 @@ export default function HomePage() {
             </div>
             <Button variant="default" className="p-0">
               <Link
-                href={"/properties"}
+                href={'/properties'}
                 className="flex items-center w-full md:w-auto p-3"
               >
                 View All <ChevronRight className="ml-2 h-4 w-4" />
@@ -554,21 +434,22 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {houseData.slice(0, 3).map((house) => (
+            {houseData.map((house) => (
               <PropertyCard
                 key={house.house_id}
                 id={house.house_id}
-                title={house.description}
-                location={house.location}
-                price={house.price}
                 beds={Number(house.bed)}
                 baths={Number(house.bath)}
-                sqft={Number(house.size)}
+                price={house.price}
+                sqft={house.size}
                 image={
                   house.image
                     ? house.image
-                    : "/assets/images/galary/galary-2.avif"
+                    : '/assets/images/galary/galary-2.avif'
                 }
+                title={house.name}
+                status={house.status}
+                location={house.location}
               />
             ))}
           </div>
@@ -787,7 +668,7 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <PropertyCard
-              id={"1"}
+              id={'1'}
               title="Luxury Penthouse"
               location="Manhattan, NY"
               price="$4,200,000"
@@ -797,7 +678,7 @@ export default function HomePage() {
               image="/assets/images/galary/galary-1.avif"
             />
             <PropertyCard
-              id={"1"}
+              id={'1'}
               title="Waterfront Estate"
               location="Miami Beach, FL"
               price="$6,500,000"
@@ -807,7 +688,7 @@ export default function HomePage() {
               image="/assets/images/galary/galary-1.avif"
             />
             <PropertyCard
-              id={"1"}
+              id={'1'}
               title="Modern Townhouse"
               location="San Francisco, CA"
               price="$1,850,000"
@@ -817,7 +698,7 @@ export default function HomePage() {
               image="/assets/images/galary/galary-1.avif"
             />
             <PropertyCard
-              id={"1"}
+              id={'1'}
               title="Mountain Retreat"
               location="Aspen, CO"
               price="$3,900,000"
@@ -861,5 +742,5 @@ export default function HomePage() {
         </div>
       </section>
     </div>
-  );
+  )
 }

@@ -1,20 +1,39 @@
-import { Star, MapPin, Phone, Link as LinkSvg, Bed, Bath, Building } from "lucide-react";
-import { Button } from "../ui/button";
-import { Card, CardContent, CardFooter } from "../ui/card";
-import { Badge } from "../ui/badge";
-import Link from "next/link";
-import Image from "next/image";
-import { HouseAndUserPhone } from "@/types/HouseType";
+import {
+  Star,
+  MapPin,
+  Phone,
+  Link as LinkSvg,
+  Bed,
+  Bath,
+  Building,
+} from 'lucide-react'
+import { Button } from '../ui/button'
+import { Card, CardContent, CardFooter } from '../ui/card'
+import { Badge } from '../ui/badge'
+import Link from 'next/link'
+import Image from 'next/image'
+import { HouseAndUserPhone } from '@/types/HouseType'
 
 interface PropertyCardProps {
-  listing: HouseAndUserPhone;
+  listing: HouseAndUserPhone
 }
 
 export default function PropertyCard(props: PropertyCardProps) {
-  const { listing } = props;
-  const { name, description, location, user, price, default_image, status, bed, bath, size } =
-    listing;
-  const defaultImage = "https://placehold.co/600x400";
+  const { listing } = props
+  const {
+    name,
+    description,
+    location,
+    user,
+    price,
+    default_image,
+    status,
+    bed,
+    bath,
+    size,
+  } = listing
+  const defaultImage = 'https://placehold.co/600x400'
+  console.log(default_image)
   return (
     <Card className="overflow-hidden group">
       <div className="relative">
@@ -27,7 +46,7 @@ export default function PropertyCard(props: PropertyCardProps) {
           className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
         />
         <Badge
-          variant={"default"}
+          variant={'default'}
           className="absolute top-3 left-3 bg-primary text-white"
         >
           {status}
@@ -84,11 +103,9 @@ export default function PropertyCard(props: PropertyCardProps) {
       <CardFooter className="flex justify-between items-center border-t p-4">
         <div className="font-bold text-primary">{price}$</div>
         <Button variant="default" className="bg-primary hover:bg-primary/90">
-          <Link href={"/properties/" + listing.house_id}>
-            Details
-          </Link>
+          <Link href={'/properties/' + listing.house_id}>Details</Link>
         </Button>
       </CardFooter>
     </Card>
-  );
+  )
 }

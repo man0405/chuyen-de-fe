@@ -1,33 +1,32 @@
-"use client";
+'use client'
 
-import { useState, useEffect, Suspense } from "react";
-import { PropertyFilters } from "../../components/property/property-filter";
-import { PropertyListingHeader } from "../../components/property/property-listing-header";
-import { PropertyGrid } from "../../components/property/property-grid";
-import { PropertyList } from "../../components/property/property-list";
-import { PropertyMap } from "../../components/property/property-map";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Building, MapPin, Search } from "lucide-react";
-import { House, HouseAndUserPhone } from "@/types/HouseType";
-import { HouseService } from "@/utils/services/HouseService";
-import PaginationComponent from "@/components/pagination/pagination";
-import { Readable } from "stream";
+import { useState, useEffect, Suspense } from 'react'
+import { PropertyFilters } from '../../components/property/property-filter'
+import { PropertyListingHeader } from '../../components/property/property-listing-header'
+import { PropertyGrid } from '../../components/property/property-grid'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Building, MapPin, Search } from 'lucide-react'
+import { House, HouseAndUserPhone } from '@/types/HouseType'
+import { HouseService } from '@/utils/services/HouseService'
+import PaginationComponent from '@/components/pagination/pagination'
+import { fetchPresignedUrl } from '@/utils/helper'
+
 // View options enum
-export type ViewType = "grid" | "list" | "map";
+export type ViewType = 'grid' | 'list' | 'map'
 
 export default function PropertyListing() {
-  const [view, setView] = useState<ViewType>("grid");
-  const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [location, setLocation] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [data, setData] = useState<HouseAndUserPhone[]>([]);
-  const [filteredData, setFilteredData] = useState<any>();
-  const [sortBy, setSortBy] = useState("price"); // support [price,star]
-  const [sortOrder, setSortOrder] = useState("asc"); // support [asc,desc]
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(12);
-  const [totalRecords, setTotalRecords] = useState<number>(0);
+  const [view, setView] = useState<ViewType>('grid')
+  const [loading, setLoading] = useState(true)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [location, setLocation] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('')
+  const [data, setData] = useState<HouseAndUserPhone[]>([])
+  const [filteredData, setFilteredData] = useState<any>()
+  const [sortBy, setSortBy] = useState('price') // support [price,star]
+  const [sortOrder, setSortOrder] = useState('asc') // support [asc,desc]
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [pageSize, setPageSize] = useState<number>(12)
+  const [totalRecords, setTotalRecords] = useState<number>(0)
   useEffect(() => {
     filterData(
       searchTerm,
@@ -36,7 +35,7 @@ export default function PropertyListing() {
       sortBy,
       sortOrder,
       currentPage
-    );
+    )
   }, [
     searchTerm,
     location,
@@ -45,23 +44,16 @@ export default function PropertyListing() {
     sortOrder,
     pageSize,
     currentPage,
-  ]);
+  ])
 
   // Handle search and filtering
   const handleSearch = (term: string) => {
-    setSearchTerm(term);
-    filterData(
-      term,
-      selectedCategory,
-      location,
-      sortBy,
-      sortOrder,
-      currentPage
-    );
-  };
+    setSearchTerm(term)
+    filterData(term, selectedCategory, location, sortBy, sortOrder, currentPage)
+  }
 
   const handleLocation = (loc: string) => {
-    setLocation(loc);
+    setLocation(loc)
     filterData(
       searchTerm,
       selectedCategory,
@@ -69,16 +61,16 @@ export default function PropertyListing() {
       sortBy,
       sortOrder,
       currentPage
-    );
-  };
+    )
+  }
 
   const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category);
-    filterData(searchTerm, category, location, sortBy, sortOrder, currentPage);
-  };
+    setSelectedCategory(category)
+    filterData(searchTerm, category, location, sortBy, sortOrder, currentPage)
+  }
 
   const handleSortBy = (sortBy: string) => {
-    setSortBy(sortBy);
+    setSortBy(sortBy)
     filterData(
       searchTerm,
       selectedCategory,
@@ -86,10 +78,10 @@ export default function PropertyListing() {
       sortBy,
       sortOrder,
       currentPage
-    );
-  };
+    )
+  }
   const handleSortOrder = (sortOrder: string) => {
-    setSortOrder(sortOrder);
+    setSortOrder(sortOrder)
     filterData(
       searchTerm,
       selectedCategory,
@@ -97,8 +89,8 @@ export default function PropertyListing() {
       sortBy,
       sortOrder,
       currentPage
-    );
-  };
+    )
+  }
 
   const filterData = async (
     term: string,
@@ -108,19 +100,19 @@ export default function PropertyListing() {
     sortOrder: string,
     currentPage: number
   ) => {
-    setLoading(true);
+    setLoading(true)
     let filtered = filteredData || {
-      name: "",
-      location: "",
-    };
+      name: '',
+      location: '',
+    }
 
-    filtered.name = term.toLowerCase();
-    filtered.location = loc.toLowerCase();
+    filtered.name = term.toLowerCase()
+    filtered.location = loc.toLowerCase()
 
-    if (category && category !== "all") {
-      filtered.status = category.toLowerCase();
+    if (category && category !== 'all') {
+      filtered.status = category.toLowerCase()
     } else {
-      filtered.status = "";
+      filtered.status = ''
     }
 
     const { data, totalRecords } = await HouseService.findPageCustomize({
@@ -134,23 +126,41 @@ export default function PropertyListing() {
       sort: [
         {
           column: sortBy,
-          ascending: sortOrder === "asc",
+          ascending: sortOrder === 'asc',
         },
       ],
       relationships: [
         {
-          table: "user",
-          join_column: "user_id",
-          select: ["name", "email", "phone"],
+          table: 'user',
+          join_column: 'user_id',
+          select: ['name', 'email', 'phone'],
         },
       ],
-    });
-    setData(data);
-    setTotalRecords(totalRecords);
+    })
+    const imagePresignedUrls = await Promise.all(
+      data.map(async (item) => {
+        let imageUrl = item.default_image
+        if (imageUrl) {
+          const presignedUrl = await fetchPresignedUrl(imageUrl)
+          return {
+            ...item,
+            default_image: presignedUrl,
+          }
+        } else {
+          // Return item with default image
+          return {
+            ...item,
+            image: '/assets/images/galary/galary-1.avif', // Default image
+          }
+        }
+      })
+    )
+    setData(imagePresignedUrls)
+    setTotalRecords(totalRecords)
 
-    setFilteredData(filtered);
-    setLoading(false);
-  };
+    setFilteredData(filtered)
+    setLoading(false)
+  }
   const handlePageChange = (pageNum: number) => {
     filterData(
       searchTerm,
@@ -159,8 +169,8 @@ export default function PropertyListing() {
       sortBy,
       sortOrder,
       pageNum
-    );
-  };
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b">
@@ -249,15 +259,10 @@ export default function PropertyListing() {
                   </div>
                 ) : (
                   <>
-                    <div className={view === "grid" ? "block" : "hidden"}>
+                    <div className={view === 'grid' ? 'block' : 'hidden'}>
                       <PropertyGrid listings={data} />
                     </div>
-                    {/* <div className={view === "list" ? "block" : "hidden"}>
-                      <PropertyList listings={data} />
-                    </div>
-                    <div className={view === "map" ? "block" : "hidden"}>
-                      <PropertyMap listings={data} />
-                    </div> */}
+
                     <PaginationComponent
                       totalRecords={totalRecords}
                       pageSize={pageSize}
@@ -273,5 +278,5 @@ export default function PropertyListing() {
         </div>
       </div>
     </div>
-  );
+  )
 }

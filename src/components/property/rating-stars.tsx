@@ -1,21 +1,21 @@
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils'
 
 interface RatingStarsProps {
-  rating: number;
-  reviews?: number;
+  rating?: number
+  reviews?: number
 }
 
-export function RatingStars({ rating, reviews = 1 }: RatingStarsProps) {
+export function RatingStars({ rating = 1, reviews = 1 }: RatingStarsProps) {
   return (
     <div className="flex items-center">
       {[1, 2, 3, 4, 5].map((star) => (
         <svg
           key={star}
           className={cn(
-            "h-4 w-4",
+            'h-4 w-4',
             star <= rating
-              ? "fill-amber-400 text-amber-400"
-              : "fill-muted stroke-muted-foreground"
+              ? 'fill-amber-400 text-amber-400'
+              : 'fill-muted stroke-muted-foreground'
           )}
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -32,5 +32,5 @@ export function RatingStars({ rating, reviews = 1 }: RatingStarsProps) {
         {rating?.toFixed(1)} ({reviews})
       </span>
     </div>
-  );
+  )
 }
