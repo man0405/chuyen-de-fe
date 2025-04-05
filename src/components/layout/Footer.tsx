@@ -1,7 +1,7 @@
-"use client";
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
+'use client'
+import React from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
 import {
   MapPin,
   Mail,
@@ -10,31 +10,31 @@ import {
   Twitter,
   Instagram,
   Linkedin,
-} from "lucide-react";
-import imageLoader from "@/utils/imageLoader";
+} from 'lucide-react'
+import imageLoader from '@/utils/imageLoader'
 
 const socials = [
   {
-    name: "facebook",
-    url: "#",
+    name: 'facebook',
+    url: '#',
     element: <Facebook />,
   },
   {
-    name: "twitter",
-    url: "#",
+    name: 'twitter',
+    url: '#',
     element: <Twitter />,
   },
   {
-    name: "instagram",
-    url: "#",
+    name: 'instagram',
+    url: '#',
     element: <Instagram />,
   },
   {
-    name: "linkedin",
-    url: "#",
+    name: 'linkedin',
+    url: '#',
     element: <Linkedin />,
   },
-];
+]
 export default function Footer() {
   return (
     <>
@@ -88,7 +88,7 @@ export default function Footer() {
                     height={300}
                   />
                 </div>
-                <span className="font-bold text-xl">HOMIRX</span>
+                <span className="font-bold text-xl">PARANOMA</span>
               </div>
               <p className="text-white/70 mb-6">
                 A short paragraph about what your platform provides. Include a
@@ -112,11 +112,11 @@ export default function Footer() {
               <h3 className="font-bold text-lg mb-6">Quick Link</h3>
               <ul className="space-y-4">
                 {[
-                  "Startup Business",
-                  "Financial Advice",
-                  "Marketing Strategy",
-                  "Business Development",
-                  "Strategy Services",
+                  'Startup Business',
+                  'Financial Advice',
+                  'Marketing Strategy',
+                  'Business Development',
+                  'Strategy Services',
                 ].map((link) => (
                   <li key={link}>
                     <Link
@@ -134,11 +134,11 @@ export default function Footer() {
               <h3 className="font-bold text-lg mb-6">Discover</h3>
               <ul className="space-y-4">
                 {[
-                  "About",
-                  "Our Team",
-                  "Features",
-                  "Testimonials",
-                  "Contact",
+                  'About',
+                  'Our Team',
+                  'Features',
+                  'Testimonials',
+                  'Contact',
                 ].map((link) => (
                   <li key={link}>
                     <Link
@@ -176,7 +176,7 @@ export default function Footer() {
 
           <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-white/70 text-sm">
-              © 2023, Designed by HomixTheme. All Rights Reserved
+              © 2023, Designed by Paranoma. All Rights Reserved
             </p>
             <div className="flex gap-4 mt-4 md:mt-0">
               <Link
@@ -196,5 +196,5 @@ export default function Footer() {
         </div>
       </footer>
     </>
-  );
+  )
 }
