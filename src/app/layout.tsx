@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Homirx',
+  title: 'Paranoma',
   description: 'Real Estate Website',
 }
 
